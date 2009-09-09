@@ -78,7 +78,7 @@ class Wildcard
     end
 
     def inspect
-        %{Wildcard[#{@wild.inspect}]#{@casefold ? 'i' : ''}}
+        %{Wildcard[#{@source.inspect}]#{@casefold ? 'i' : ''}}
     end
 
     #
