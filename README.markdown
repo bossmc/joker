@@ -20,6 +20,10 @@ Joker is a simple Wildcard implementition for Ruby.
 
 ## Usage ##
 
+    require 'rubygems'
+    require 'joker'
+
+
     wild = Wildcard['Fairy?ake*']
 
     wild =~ 'Fairycake'                     #=> true
