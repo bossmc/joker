@@ -18,6 +18,8 @@ a {
   position: absolute;
   top: 0px;
   right:0px; }
+  #forkme a {
+  color: #000; }
 
 #content {
   text-align: center;
