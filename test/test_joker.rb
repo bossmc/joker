@@ -5,7 +5,7 @@ describe 'A Wildcard' do
 
     before do
         @wild  ||= Wildcard['Fairy?ake*']
-        @wildi ||= Wildcard['Fairy?ake*', true]
+        @wildi ||= Wildcard['Fairy?ake*\?', true]
     end
 
     it 'should be constructed correctly' do
@@ -14,7 +14,7 @@ describe 'A Wildcard' do
         regexp  = @wild.instance_variable_get(:@regexp)
         regexpi = @wildi.instance_variable_get(:@regexp)
         regexp.should.be  == /^Fairy.ake.*$/
-        regexpi.should.be == /^Fairy.ake.*$/i
+        regexpi.should.be == /^Fairy.ake.*\?$/i
     end
 
     it 'should match correct strings' do
@@ -30,9 +30,9 @@ describe 'A Wildcard' do
     end
 
     it 'should match case insensitive' do
-        @wildi.should =~ 'FairyCake'
-        @wildi.should =~ 'fairyfakes'
-        @wildi.should =~ 'FairyLake IS A COOL Place'
+        @wildi.should =~ 'FairyCake?'
+        @wildi.should =~ 'fairyfakes?'
+        @wildi.should =~ 'FairyLake IS A COOL Place?'
     end
 
     it 'should handle escapes correctly' do
