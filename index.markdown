@@ -9,7 +9,7 @@ title: Joker -- Wildcards for Ruby
 
 ## Wildcards for Ruby ##
 
-    gem install karottenreibe-joker --source gems.github.com
+    gem install karottenreibe-joker --source http://gems.github.com
     gem install joker
 
 {% highlight ruby %}
