@@ -1,5 +1,5 @@
 #
-# Joker is a simple wildcard implementation that works much like Regexps.
+# Joker is a simple Wildcard implementation that works much like Regexps.
 #
 
 #
