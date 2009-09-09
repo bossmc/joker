@@ -16,5 +16,5 @@ title: Joker -- Wildcards for Ruby
 {% include demo.rb %}
 {% endhighlight %}
 
-[joker]: /joker.jpg         "Batman and the Joker"
+[joker]: /joker/joker.jpg         "Batman and the Joker"
 
