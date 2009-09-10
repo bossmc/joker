@@ -9,11 +9,12 @@
 #
 # - '?'   matches a single character
 # - '*'   matches any number of characters, including 0
-# - '\*'  matches a literal '*'
-# - '\?'  matches a literal '?'
-# - '\\'  matches a literal '\'
+# - '\\*'  matches a literal '*'
+# - '\\?'  matches a literal '?'
+# - '\\\\'  matches a literal '\\'
 #
-# NOTE that '\a' will match the literal string '\a'.
+# NOTE that '\\a' will match the literal string '\\a', not 'a' as
+# one might expect.
 #
 #   wild = Wildcard['Fairy?ake*']
 #   wild =~ 'Fairycake'                     #=> true
