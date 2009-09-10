@@ -92,18 +92,19 @@ This implementation supports the following special characters:
 <li>&#8217;*&#8217; matches any number of characters, including 0
 
 </li>
-<li>&#8217;*&#8217; matches a literal &#8217;*&#8217;
+<li>&#8217;\*&#8217; matches a literal &#8217;*&#8217;
 
 </li>
 <li>&#8217;\?&#8217; matches a literal &#8217;?&#8217;
 
 </li>
-<li>&#8217;\&#8217; matches a literal &#8217;\&#8217;
+<li>&#8217;\\&#8217; matches a literal &#8217;\&#8217;
 
 </li>
 </ul>
 <p>
-NOTE that &#8217;\a&#8217; will match the literal string &#8217;\a&#8217;.
+NOTE that &#8217;\a&#8217; will match the literal string &#8217;\a&#8217;,
+not &#8216;a&#8217; as one might expect.
 </p>
 <pre>
   wild = Wildcard['Fairy?ake*']
@@ -245,7 +246,7 @@ true, the <a href="Wildcard.html">Wildcard</a> will ignore case.
             onclick="toggleCode('M000001-source');return false;">[Source]</a></p>
           <div class="method-source-code" id="M000001-source">
 <pre>
-<span class="ruby-comment cmt"># File lib/joker.rb, line 55</span>
+<span class="ruby-comment cmt"># File lib/joker.rb, line 56</span>
     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>( <span class="ruby-identifier">wildcard_string</span>, <span class="ruby-identifier">casefold</span> = <span class="ruby-keyword kw">false</span> )
         <span class="ruby-ivar">@source</span>   = <span class="ruby-identifier">wildcard_string</span>
         <span class="ruby-ivar">@casefold</span> = <span class="ruby-identifier">casefold</span>
@@ -278,7 +279,7 @@ href="Wildcard.html">Wildcard</a>.
             onclick="toggleCode('M000002-source');return false;">[Source]</a></p>
           <div class="method-source-code" id="M000002-source">
 <pre>
-<span class="ruby-comment cmt"># File lib/joker.rb, line 70</span>
+<span class="ruby-comment cmt"># File lib/joker.rb, line 71</span>
         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">quote</span>( <span class="ruby-identifier">string</span> )
             <span class="ruby-identifier">string</span>.<span class="ruby-identifier">gsub</span>(<span class="ruby-regexp re">%r{[\\?*]}</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">char</span><span class="ruby-operator">|</span> <span class="ruby-node">&quot;\\#{char}&quot;</span> }
         <span class="ruby-keyword kw">end</span>
@@ -326,7 +327,7 @@ The case operator. Allows you to use Wildcards in case expressions:
             onclick="toggleCode('M000006-source');return false;">[Source]</a></p>
           <div class="method-source-code" id="M000006-source">
 <pre>
-<span class="ruby-comment cmt"># File lib/joker.rb, line 117</span>
+<span class="ruby-comment cmt"># File lib/joker.rb, line 118</span>
     <span class="ruby-keyword kw">def</span> <span class="ruby-operator">===</span>( <span class="ruby-identifier">object</span> )
         <span class="ruby-operator">!</span><span class="ruby-operator">!</span>(<span class="ruby-ivar">@regexp</span> <span class="ruby-operator">=~</span> <span class="ruby-identifier">object</span>)
     <span class="ruby-keyword kw">end</span>
@@ -360,7 +361,7 @@ returns true or false, not the position of the match.
             onclick="toggleCode('M000005-source');return false;">[Source]</a></p>
           <div class="method-source-code" id="M000005-source">
 <pre>
-<span class="ruby-comment cmt"># File lib/joker.rb, line 104</span>
+<span class="ruby-comment cmt"># File lib/joker.rb, line 105</span>
     <span class="ruby-keyword kw">def</span> <span class="ruby-operator">=~</span>( <span class="ruby-identifier">string</span> )
         <span class="ruby-operator">!</span><span class="ruby-operator">!</span>(<span class="ruby-ivar">@regexp</span> <span class="ruby-operator">=~</span> <span class="ruby-identifier">string</span>)
     <span class="ruby-keyword kw">end</span>
@@ -390,7 +391,7 @@ have the same casefold?().
             onclick="toggleCode('M000007-source');return false;">[Source]</a></p>
           <div class="method-source-code" id="M000007-source">
 <pre>
-<span class="ruby-comment cmt"># File lib/joker.rb, line 127</span>
+<span class="ruby-comment cmt"># File lib/joker.rb, line 128</span>
     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">eql?</span>( <span class="ruby-identifier">that</span> )
         <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">false</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">that</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Wildcard</span>)
         <span class="ruby-ivar">@source</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">that</span>.<span class="ruby-identifier">source</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-ivar">@casefold</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">that</span>.<span class="ruby-identifier">casefold</span>
@@ -414,7 +415,7 @@ have the same casefold?().
             onclick="toggleCode('M000003-source');return false;">[Source]</a></p>
           <div class="method-source-code" id="M000003-source">
 <pre>
-<span class="ruby-comment cmt"># File lib/joker.rb, line 80</span>
+<span class="ruby-comment cmt"># File lib/joker.rb, line 81</span>
     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">inspect</span>
         <span class="ruby-node">%{Wildcard[#{@source.inspect}]#{@casefold ? 'i' : ''}}</span>
     <span class="ruby-keyword kw">end</span>
@@ -444,7 +445,7 @@ Matches the wildcard against $_:
             onclick="toggleCode('M000004-source');return false;">[Source]</a></p>
           <div class="method-source-code" id="M000004-source">
 <pre>
-<span class="ruby-comment cmt"># File lib/joker.rb, line 90</span>
+<span class="ruby-comment cmt"># File lib/joker.rb, line 91</span>
     <span class="ruby-keyword kw">def</span> <span class="ruby-operator">~</span>
         <span class="ruby-keyword kw">self</span> <span class="ruby-operator">=~</span> <span class="ruby-identifier">$_</span>
     <span class="ruby-keyword kw">end</span>
