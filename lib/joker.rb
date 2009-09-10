@@ -7,11 +7,13 @@
 #
 # This implementation supports the following special characters:
 #
-# - '?'   matches a single character
-# - '*'   matches any number of characters, including 0
-# - '\\*'  matches a literal '*'
-# - '\\?'  matches a literal '?'
-# - '\\\\'  matches a literal '\\'
+# - ?      matches a single character
+# - *      matches any number of characters, including 0
+# - \\*    matches a literal '*'
+# - \\?    matches a literal '?'
+# - \\\\   matches a literal '\\'
+# - [xyz]  matches either 'x', 'y' or 'z'. NOTE that you have
+#          to escape ']' in these groups: \\] 
 #
 # NOTE that '\\a' will match the literal string '\\a', not 'a' as
 # one might expect.
@@ -69,7 +71,7 @@ class Wildcard
         # special meaning in a Wildcard.
         #
         def quote( string )
-            string.gsub(%r{[\\?*]}) { |char| "\\#{char}" }
+            string.gsub(%r{[\\?*\[]}) { |char| "\\#{char}" }
         end
 
         alias_method :[], :new
@@ -144,22 +146,31 @@ class Wildcard
         ptr = 0
         compiled = '^'
         while ptr < @source.length
-            snip = @source[ptr..ptr]
-            case snip
-            when '\\'
-                lookahead = @source[ptr+1..ptr+1]
-                case snip
-                when '\\\\', '\\?', '\\*'
-                    compiled << snip << lookahead
-                else
-                    compiled << Regexp.quote(lookahead)
-                end
+            snip = @source[ptr..-1]
+            if snip.scan(%r{^\\\\}).first
+                compiled << '\\\\'
+                ptr += 2
+            elsif snip.scan(%r{^\\\?}).first
+                compiled << '\\?'
+                ptr += 2
+            elsif snip.scan(%r{^\\\*}).first
+                compiled << '\\*'
+                ptr += 2
+            elsif snip.scan(%r{^\?}).first
+                compiled << '.'
                 ptr += 1
-            when '?' then compiled << '.'
-            when '*' then compiled << '.*'
-            else          compiled << Regexp.quote(snip)
+            elsif snip.scan(%r{^\*}).first
+                compiled << '.*'
+                ptr += 1
+            elsif group = snip.scan(%r{^\[(?:\\\]|[^\]])+\]}).first
+                ptr += group.length
+                group = group[1..-2]  # remove []
+                group = group.gsub(%r{\\\]}) { ']' }
+                compiled << '[' << Regexp.quote(group) << ']'
+            else
+                compiled << Regexp.quote(@source[ptr..ptr])
+                ptr += 1
             end
-            ptr += 1
         end
         compiled + '$'
     end
