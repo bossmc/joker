@@ -1,6 +1,6 @@
 ---
 layout: layout
-title: Joker -- Wildcards for Ruby
+title: Joker -- Wildcards (a.k.a. Glob Patterns) for Ruby
 ---
 
 # Joker #
