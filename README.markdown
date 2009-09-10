@@ -2,7 +2,8 @@
 
 <http://karottenreibe.github.com/joker>
 
-Joker is a simple Wildcard implementition for Ruby.
+Joker is a simple Wildcard (a.k.a Glob Pattern) implementition
+for Ruby.
 
 ## Features ##
 
