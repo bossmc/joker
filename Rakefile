@@ -6,7 +6,7 @@ task :release do
     sh "git commit -a -m 'prerelease adjustments'; true"
 end
 
-Jeweler::Tasks.new do |gem|
+jeweler_tasks = Jeweler::Tasks.new do |gem|
     gem.name = 'joker'
     gem.summary = gem.description =
         'Joker is a simple wildcard implementation that works much like Regexps'
@@ -27,5 +27,11 @@ end
 
 task :test do
     sh 'bacon -Ilib test/test_*.rb'
+end
+
+require 'rake/extensiontask'
+Rake::ExtensionTask.new('joker', jeweler_tasks.gemspec) do |ext|
+    ext.cross_compile = true
+    ext.cross_platform = 'i386-mswin32'
 end
 
