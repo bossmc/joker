@@ -54,6 +54,7 @@ class Wildcard
     #
     # Creates a new Wildcard from the given string.
     # If casefold is true, the Wildcard will ignore case.
+    # TODO
     #
     def initialize( wildcard_string, casefold = false )
         @source   = wildcard_string
@@ -71,7 +72,7 @@ class Wildcard
         # special meaning in a Wildcard.
         #
         def quote( string )
-            string.gsub(%r{[\\?*\[]}) { |char| "\\#{char}" }
+            string.gsub(%r{[\\?*\[\]]}) { |char| "\\#{char}" }
         end
 
         alias_method :[], :new
@@ -81,7 +82,7 @@ class Wildcard
     end
 
     def inspect
-        %{Wildcard[#{@source.inspect}]#{@casefold ? 'i' : ''}}
+        %{Wildcard[#{self.source.inspect}]#{self.casefold ? 'i' : ''}}
     end
 
     #
@@ -95,33 +96,6 @@ class Wildcard
     end
 
     #
-    # Matches the Wildcard against the given string.
-    #
-    # NOTE: Since a wildcard has to match the whole string,
-    # this method only returns true or false, not the position
-    # of the match.
-    #
-    #   Wildcard['*fairy*'] =~ 'I love fairycake'   #=> true
-    #   'I love fairycake' =~ Wildcard['*dairy*']   #=> false
-    #
-    def =~( string )
-        !!(@regexp =~ string)
-    end
-
-    #
-    # The case operator. Allows you to use Wildcards in case
-    # expressions:
-    #
-    #   case 'I love fairycake'
-    #   when Wildcard['*fairy*'] then puts 'fairy!'
-    #   else puts 'no fairy...'
-    #   end
-    #
-    def ===( object )
-        !!(@regexp =~ object)
-    end
-
-    #
     # Compares to Wildcards for equality.
     #
     # Two wildcards are equal, if they were constructed from the
@@ -129,7 +103,7 @@ class Wildcard
     #
     def eql?( that )
         return false unless that.is_a?(Wildcard)
-        @source == that.source && @casefold == that.casefold
+        self.source == that.source && self.casefold == that.casefold
     end
 
     alias_method :==, :eql?
@@ -141,6 +115,7 @@ class Wildcard
     # Converts the wildcard string into a Regexp.
     # A simple parser, I just threw it in there, no
     # optimizations.
+    # TODO
     #
     def compile
         ptr = 0
