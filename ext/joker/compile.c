@@ -1,6 +1,7 @@
-#include <stdlib.h>
+#include <malloc.h>
 #include <stdio.h>
-#include "jkCompiler.h"
+#include <string.h>
+#include "compile.h"
 
 
 static void
@@ -33,12 +34,50 @@ hash(cchar)
 }
 
 
+static void *
+Array_enlarge(array, entry_size, old_size)
+    void **   array;
+    int       entry_size;
+    long int  old_size;
+{
+    void *    new_array;
+
+    new_array = malloc(entry_size * (old_size + 1));
+    if (*array != 0) {
+        memcpy(new_array, *array, entry_size * old_size);
+        free(*array);
+    }
+    *array = new_array;
+    return new_array + old_size;
+}
+
+
 static void
 push_fixed(cchar, wildcard)
     const char  cchar;
     Wildcard *  wildcard;
 {
-    printf("-> fixed: %c\n", cchar);
+    char *      new_char;
+    Wildpart *  part;
+
+    switch (wildcard->last) {
+        case Fixed:  // add to current string
+            part        = wildcard->parts + wildcard->length - 1;
+            new_char = Array_enlarge(&part->data, sizeof(char), part->length);
+            part->length += 1;
+            *(new_char - 1)  = cchar;
+            *new_char        = '\0';
+            break;
+        default:     // add new array entry
+            part = Array_enlarge(&wildcard->parts, sizeof(Wildpart), wildcard->length);
+            wildcard->length += 1;
+            part->type     = Fixed;
+            part->length   = 1;
+            part->data     = malloc(sizeof(char)*2);
+            part->data[0]  = cchar;
+            part->data[1]  = '\0';
+            break;
+    }
 }
 
 
@@ -46,7 +85,17 @@ static void
 push_wild(wildcard)
     Wildcard *  wildcard;
 {
-    printf("-> wild\n");
+    Wildpart *  part;
+
+    switch (wildcard->last) {
+        case Kleene:  // transform *? --> *
+            break;
+        default:      // add new array entry
+            part = Array_enlarge(&wildcard->parts, sizeof(Wildpart), wildcard->length);
+            wildcard->length += 1;
+            part->type = Wild;
+            break;
+    }
 }
 
 
@@ -54,7 +103,21 @@ static void
 push_kleene(wildcard)
     Wildcard *  wildcard;
 {
-    printf("-> kleene\n");
+    Wildpart *  part;
+
+    switch (wildcard->last) {
+        case Kleene:  // transform ** --> *
+            break;
+        case Wild:    // transform ?* --> *
+            part = wildcard->parts + wildcard->length - 1;
+            part->type = Kleene;
+            break;
+        default:      // add new array entry
+            part = Array_enlarge(&wildcard->parts, sizeof(Wildpart), wildcard->length);
+            wildcard->length += 1;
+            part->type = Kleene;
+            break;
+    }
 }
 
 
@@ -63,7 +126,27 @@ push_group(cchar, wildcard)
     const char  cchar;
     Wildcard *  wildcard;
 {
-    printf("-> group: %c\n", cchar);
+    char *      new_char;
+    Wildpart *  part;
+
+    switch (wildcard->last) {
+        case Group:  // add to current group
+            part      = wildcard->parts + wildcard->length - 1;
+            new_char  = Array_enlarge(&part->data, sizeof(char), part->length);
+            part->length += 1;
+            *(new_char - 1)  = cchar;
+            *new_char        = '\0';
+            break;
+        default:     // add new array entry
+            part = Array_enlarge(&wildcard->parts, sizeof(Wildpart), wildcard->length);
+            wildcard->length += 1;
+            part->type     = Group;
+            part->length   = 1;
+            part->data     = malloc(sizeof(char)*2);
+            part->data[0]  = cchar;
+            part->data[1]  = '\0';
+            break;
+    }
 }
 
 
@@ -141,14 +224,14 @@ do_transition(transition, input, state, wildcard)
 }
 
 
-int
-Wildcard_Compile(cstring, len, wildcard)
+void
+Wildcard_compile(cstring, len, wildcard)
     const char *    cstring;
     const long int  len;
     Wildcard *      wildcard;
 {
     // the table that maps (state x input) -> transition
-    const char transitiontable[4][7] = {
+    const char transition_table[4][7] = {
     //    \   [   ]   *   ? any EOS
         { 0,  1,  2,  3,  4,  5,  6},
         { 7,  7,  7,  7,  7,  8,  9},
@@ -156,17 +239,20 @@ Wildcard_Compile(cstring, len, wildcard)
         {15, 15, 15, 16, 16, 16, 14}
     };
     int state = 0;
-    long int p;
+
+    long int  p;
+    char      input;
+    int       hashed;
+    char      transition;
 
     for (p = 0; p < len; p++) {
-        char input = cstring[p];
-        int hashed = hash(input);
-        char transition = transitiontable[state][hashed];
+        input = cstring[p];
+        hashed = hash(input);
+        transition = transition_table[state][hashed];
         do_transition(transition, input, &state, wildcard);
     }
 
-    char transition = transitiontable[state][6];
+    transition = transition_table[state][6];
     do_transition(transition, '\0', &state, wildcard);
-    return 1;
 }
 

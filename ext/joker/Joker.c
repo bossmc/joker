@@ -1,18 +1,7 @@
+#include <malloc.h>
 #include "Joker.h"
+#include "Wildcard.h"
 #include "compile.h"
-#include "stdlib.h"
-
-
-static void
-Wildcard_free(p)
-    void *  p;
-{
-    Wildcard *  wildcard;
-
-    wildcard = p;
-    // TODO dispose of parts
-    free(wildcard);
-}
 
 
 void
@@ -92,17 +81,19 @@ class_method_new(argc, argv, klass)
     VALUE         new_object;
     Wildcard *    new_wildcard;
     const char *  wildcard_cstring;
-    long int      wildcard_len;
+    long int      string_length;
 
     rb_scan_args(argc, argv, "11", &wildcard_string, &casefold);
     if (NIL_P(casefold)) {
         casefold = Qfalse;
     }
 
-    wildcard_cstring = rb_str2cstr(wildcard_string, &wildcard_len);
-    new_wildcard     = malloc(sizeof(Wildcard));
-    Wildcard_compile(wildcard_cstring, wildcard_len, new_wildcard);
+    wildcard_cstring = rb_str2cstr(wildcard_string, &string_length);
+    new_wildcard     = Wildcard_init();
+    Wildcard_compile(wildcard_cstring, string_length, new_wildcard);
     new_object       = Data_Wrap_Struct(klass, 0, Wildcard_free, new_wildcard); 
+
+    // TODO casefold
 
     return new_object;
 }

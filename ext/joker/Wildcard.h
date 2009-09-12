@@ -1,12 +1,29 @@
+#ifndef WILDCARD_H_GUARD
+#define WILDCARD_H_GUARD
+
+
+typedef enum {
+    Fixed, Wild, Kleene, Group, None
+} WildpartType;
+
 
 typedef struct {
-    char        type;   // 0 => '*', 1 => '?', 2 => string, 3 => group
-    int         len;    // The lenght of the string or group
-    char *      data;   // The data for the strings and groups
+    WildpartType  type;
+    int           length; // The lenght of fixed or group
+    char *        data;   // The data for fixed and group
 } Wildpart;
 
+
 typedef struct {
-    int         len;
-    Wildpart *  parts;
+    int           length;
+    WildpartType  last;
+    Wildpart *    parts;
 } Wildcard;
+
+
+Wildcard * Wildcard_init(void);
+void Wildcard_free(Wildcard * wildcard);
+
+
+#endif
 

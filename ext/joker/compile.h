@@ -1,4 +1,11 @@
+#ifndef COMPILE_H_GUARD
+#define COMPILE_H_GUARD
+
 #include "Wildcard.h"
 
-int Wildcard_Compile(const char * cstring, const long int len, Wildcard * wildcard);
+
+void Wildcard_Compile(const char * cstring, const long int len, Wildcard * wildcard);
+
+
+#endif
 
