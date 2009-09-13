@@ -4,6 +4,7 @@
 #include <string.h>
 #include <ruby.h>
 #include "compile.h"
+#include "CArray.h"
 
 
 static int
@@ -27,23 +28,6 @@ hash(cchar)  // {{{1
 }
 
 
-static void *
-Array_enlarge(array, entry_size, old_size)  // {{{1
-    void **   array;
-    int       entry_size;
-    long int  old_size;
-{
-    void *    new_array;
-
-    new_array = realloc(*array, entry_size * (old_size + 1));
-    if (new_array == 0) {
-        rb_raise(rb_eNoMemError, "unable to allocate enough memory for wildcard");
-    }
-    *array = new_array;
-    return new_array + old_size;
-}
-
-
 static void
 push_fixed(cchar, wildcard)  // {{{1
     const char  cchar;
@@ -55,13 +39,13 @@ push_fixed(cchar, wildcard)  // {{{1
     switch (wildcard->last) {
         case Fixed:  // add to current string
             part        = wildcard->parts + wildcard->length - 1;
-            new_char = Array_enlarge(&part->data, sizeof(char), part->length);
+            new_char = CArray_enlarge(&part->data, char, part->length);
             part->length += 1;
             *(new_char - 1)  = cchar;
             *new_char        = '\0';
             break;
         default:     // add new array entry
-            part = Array_enlarge(&wildcard->parts, sizeof(Wildpart), wildcard->length);
+            part = CArray_enlarge(&wildcard->parts, Wildpart, wildcard->length);
             wildcard->length += 1;
             part->type     = Fixed;
             part->length   = 1;
@@ -83,7 +67,7 @@ push_wild(wildcard)  // {{{1
         case Kleene:  // transform *? --> *
             break;
         default:      // add new array entry
-            part = Array_enlarge(&wildcard->parts, sizeof(Wildpart), wildcard->length);
+            part = CArray_enlarge(&wildcard->parts, Wildpart, wildcard->length);
             wildcard->length += 1;
             part->type = Wild;
             break;
@@ -105,7 +89,7 @@ push_kleene(wildcard)  // {{{1
             part->type = Kleene;
             break;
         default:      // add new array entry
-            part = Array_enlarge(&wildcard->parts, sizeof(Wildpart), wildcard->length);
+            part = CArray_enlarge(&wildcard->parts, Wildpart, wildcard->length);
             wildcard->length += 1;
             part->type = Kleene;
             break;
@@ -124,13 +108,13 @@ push_group(cchar, wildcard)  // {{{1
     switch (wildcard->last) {
         case Group:  // add to current group
             part      = wildcard->parts + wildcard->length - 1;
-            new_char  = Array_enlarge(&part->data, sizeof(char), part->length);
+            new_char  = CArray_enlarge(&part->data, char, part->length);
             part->length += 1;
             *(new_char - 1)  = cchar;
             *new_char        = '\0';
             break;
         default:     // add new array entry
-            part = Array_enlarge(&wildcard->parts, sizeof(Wildpart), wildcard->length);
+            part = CArray_enlarge(&wildcard->parts, Wildpart, wildcard->length);
             wildcard->length += 1;
             part->type     = Group;
             part->length   = 1;

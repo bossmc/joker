@@ -37,12 +37,14 @@ instance_operator_match(self, string)  // {{{1
 {
     Wildcard *    wildcard;
     const char *  cstring;
-    int           length;
+    long int      length;
+    int           casefold;
 
     Data_Get_Struct(self, Wildcard, wildcard);
-    cstring = rb_str2cstr(string, &length);
+    cstring   = rb_str2cstr(string, &length);
+    casefold  = RTEST(rb_iv_get(self, "@casefold"));
 
-    if (Wildcard_match(wildcard, cstring, length)) {
+    if (Wildcard_match(wildcard, cstring, length, casefold)) {
         return Qtrue;
     } else {
         return Qfalse;
@@ -70,12 +72,15 @@ instance_operator_case(self, object)  // {{{1
 {
     Wildcard *    wildcard;
     const char *  cstring;
-    int           length;
+    long int      length;
+    int           casefold;
 
+    Check_Type(object, T_STRING);
     Data_Get_Struct(self, Wildcard, wildcard);
-    cstring  = rb_str2cstr(string, &length);
+    cstring  = rb_str2cstr(object, &length);
+    casefold  = RTEST(rb_iv_get(self, "@casefold"));
 
-    if (Wildcard_match(wildcard, cstring, length)) {
+    if (Wildcard_match(wildcard, cstring, length, casefold)) {
         return Qtrue;
     } else {
         return Qfalse;
@@ -122,7 +127,7 @@ class_method_new(argc, argv, klass)  // {{{1
     Wildcard_compile(wildcard_cstring, string_length, new_wildcard);
     new_object       = Data_Wrap_Struct(klass, 0, Wildcard_free, new_wildcard); 
 
-    // TODO casefold
+    rb_iv_set(new_object, "@casefold", casefold);
 
     return new_object;
 }

@@ -9,8 +9,8 @@ typedef enum {
 
 typedef struct {
     WildpartType  type;
-    int           length; // The lenght of fixed or group
-    char *        data;   // The data for fixed and group
+    int           length; // The lenght of Fixed or Group
+    char *        data;   // The data for Fixed and Group
 } Wildpart;
 
 
