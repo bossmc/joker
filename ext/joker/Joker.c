@@ -2,6 +2,7 @@
 #include "Joker.h"
 #include "Wildcard.h"
 #include "compile.h"
+#include "match.h"
 
 
 void
@@ -34,6 +35,18 @@ instance_operator_match(self, string)  // {{{1
     VALUE  self;
     VALUE  string;
 {
+    Wildcard *    wildcard;
+    const char *  cstring;
+    int           length;
+
+    Data_Get_Struct(self, Wildcard, wildcard);
+    cstring = rb_str2cstr(string, &length);
+
+    if (Wildcard_match(wildcard, cstring, length)) {
+        return Qtrue;
+    } else {
+        return Qfalse;
+    }
 }
 
 
@@ -55,6 +68,18 @@ instance_operator_case(self, object)  // {{{1
     VALUE  self;
     VALUE  object;
 {
+    Wildcard *    wildcard;
+    const char *  cstring;
+    int           length;
+
+    Data_Get_Struct(self, Wildcard, wildcard);
+    cstring  = rb_str2cstr(string, &length);
+
+    if (Wildcard_match(wildcard, cstring, length)) {
+        return Qtrue;
+    } else {
+        return Qfalse;
+    }
 }
 
 
