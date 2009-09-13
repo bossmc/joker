@@ -5,8 +5,12 @@
 
 
 void
-Init_joker(void)
+Init_joker(void)  // {{{1
 {
+    class_Wildcard = rb_define_class("Wildcard", rb_cObject);
+    rb_define_singleton_method(class_Wildcard, "new", class_method_new, -2);
+    rb_define_method(class_Wildcard, "=~",  instance_operator_match, 1);
+    rb_define_method(class_Wildcard, "===", instance_operator_case, 1);
 }
 
 
@@ -26,7 +30,7 @@ Init_joker(void)
  *
  */
 VALUE
-instance_operator_match(self, string)
+instance_operator_match(self, string)  // {{{1
     VALUE  self;
     VALUE  string;
 {
@@ -47,7 +51,7 @@ instance_operator_match(self, string)
  *
  */
 VALUE
-instance_operator_case(self, object)
+instance_operator_case(self, object)  // {{{1
     VALUE  self;
     VALUE  object;
 {
@@ -71,7 +75,7 @@ instance_operator_case(self, object)
  *
  */
 VALUE
-class_method_new(argc, argv, klass)
+class_method_new(argc, argv, klass)  // {{{1
     int      argc;
     VALUE *  argv;
     VALUE    klass;

@@ -4,7 +4,7 @@
 #include "ruby.h"
 
 
-VALUE class_Wildcard = Qnil;
+VALUE class_Wildcard;
 void Init_joker(void);
 
 

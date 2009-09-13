@@ -1,20 +1,13 @@
 #include <malloc.h>
 #include <stdio.h>
 #include <string.h>
+#include <string.h>
+#include <ruby.h>
 #include "compile.h"
 
 
-static void
-jkwarn(message)
-    const char *  message;
-{
-    printf("%s\n", message);
-    // TODO
-}
-
-
 static int
-hash(cchar)
+hash(cchar)  // {{{1
     const char  cchar;
 {
     switch (cchar) {
@@ -35,17 +28,16 @@ hash(cchar)
 
 
 static void *
-Array_enlarge(array, entry_size, old_size)
+Array_enlarge(array, entry_size, old_size)  // {{{1
     void **   array;
     int       entry_size;
     long int  old_size;
 {
     void *    new_array;
 
-    new_array = malloc(entry_size * (old_size + 1));
-    if (*array != 0) {
-        memcpy(new_array, *array, entry_size * old_size);
-        free(*array);
+    new_array = realloc(*array, entry_size * (old_size + 1));
+    if (new_array == 0) {
+        rb_raise(rb_eNoMemError, "unable to allocate enough memory for wildcard");
     }
     *array = new_array;
     return new_array + old_size;
@@ -53,7 +45,7 @@ Array_enlarge(array, entry_size, old_size)
 
 
 static void
-push_fixed(cchar, wildcard)
+push_fixed(cchar, wildcard)  // {{{1
     const char  cchar;
     Wildcard *  wildcard;
 {
@@ -82,7 +74,7 @@ push_fixed(cchar, wildcard)
 
 
 static void
-push_wild(wildcard)
+push_wild(wildcard)  // {{{1
     Wildcard *  wildcard;
 {
     Wildpart *  part;
@@ -100,7 +92,7 @@ push_wild(wildcard)
 
 
 static void
-push_kleene(wildcard)
+push_kleene(wildcard)  // {{{1
     Wildcard *  wildcard;
 {
     Wildpart *  part;
@@ -122,7 +114,7 @@ push_kleene(wildcard)
 
 
 static void
-push_group(cchar, wildcard)
+push_group(cchar, wildcard)  // {{{1
     const char  cchar;
     Wildcard *  wildcard;
 {
@@ -151,7 +143,7 @@ push_group(cchar, wildcard)
 
 
 static void
-do_transition(transition, input, state, wildcard)
+do_transition(transition, input, state, wildcard)  // {{{1
     const char  transition;
     const char  input;
     int *       state;
@@ -166,7 +158,7 @@ do_transition(transition, input, state, wildcard)
             break;
         case 2:
             push_fixed(input, wildcard);
-            jkwarn("Unescaped ]");
+            rb_warn("wildcard has `]' without escape");
             break;
         case 3:
             push_kleene(wildcard);
@@ -198,7 +190,7 @@ do_transition(transition, input, state, wildcard)
             break;
         case 11:
             push_group(input, wildcard);
-            jkwarn("Unescaped [ in group");
+            rb_warn("character class has `[' without escape");
             break;
         case 12:
             *state = 0;
@@ -208,8 +200,7 @@ do_transition(transition, input, state, wildcard)
             break;
         case 14:
             *state = -1;
-            jkwarn("Unfinished group");
-            // throw ruby error
+            rb_raise(rb_eSyntaxError, "premature end of wildcard");
             break;
         case 15:
             *state = 2;
@@ -225,7 +216,7 @@ do_transition(transition, input, state, wildcard)
 
 
 void
-Wildcard_compile(cstring, len, wildcard)
+Wildcard_compile(cstring, len, wildcard)  // {{{1
     const char *    cstring;
     const long int  len;
     Wildcard *      wildcard;
