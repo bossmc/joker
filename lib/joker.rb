@@ -109,46 +109,5 @@ class Wildcard
     alias_method :==, :eql?
     alias_method :casefold?, :casefold
 
-    private
-
-    #
-    # Converts the wildcard string into a Regexp.
-    # A simple parser, I just threw it in there, no
-    # optimizations.
-    # TODO
-    #
-    def compile
-        ptr = 0
-        compiled = '^'
-        while ptr < @source.length
-            snip = @source[ptr..-1]
-            if snip.scan(%r{^\\\\}).first
-                compiled << '\\\\'
-                ptr += 2
-            elsif snip.scan(%r{^\\\?}).first
-                compiled << '\\?'
-                ptr += 2
-            elsif snip.scan(%r{^\\\*}).first
-                compiled << '\\*'
-                ptr += 2
-            elsif snip.scan(%r{^\?}).first
-                compiled << '.'
-                ptr += 1
-            elsif snip.scan(%r{^\*}).first
-                compiled << '.*'
-                ptr += 1
-            elsif group = snip.scan(%r{^\[(?:\\\]|[^\]])+\]}).first
-                ptr += group.length
-                group = group[1..-2]  # remove []
-                group = group.gsub(%r{\\\]}) { ']' }
-                compiled << '[' << Regexp.quote(group) << ']'
-            else
-                compiled << Regexp.quote(@source[ptr..ptr])
-                ptr += 1
-            end
-        end
-        compiled + '$'
-    end
-
 end
 
