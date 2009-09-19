@@ -64,8 +64,6 @@ push_wild(wildcard)  // {{{1
     Wildpart *  part;
 
     switch (wildcard->last) {
-        case Kleene:  // transform *? --> *
-            break;
         default:      // add new array entry
             part = CArray_enlarge(&wildcard->parts, Wildpart, wildcard->length);
             wildcard->length += 1;
@@ -83,10 +81,6 @@ push_kleene(wildcard)  // {{{1
 
     switch (wildcard->last) {
         case Kleene:  // transform ** --> *
-            break;
-        case Wild:    // transform ?* --> *
-            part = wildcard->parts + wildcard->length - 1;
-            part->type = Kleene;
             break;
         default:      // add new array entry
             part = CArray_enlarge(&wildcard->parts, Wildpart, wildcard->length);
