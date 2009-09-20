@@ -6,7 +6,10 @@
 #include "string_functions.h"
 
 
-void test_strnstr(void ** state) {
+static void
+test_strnstr(state)
+    void ** state;
+{
     assert_int_equal(     0, (int)strnstr("roses", "r",    0));
     assert_int_not_equal( 0, (int)strnstr("roses", "r",    3));
     assert_int_equal(     0, (int)strnstr("roses", "x",    3));
@@ -21,7 +24,10 @@ void test_strnstr(void ** state) {
 }
 
 
-void test_strncasestr(void ** state) {
+static void
+test_strncasestr(state)
+    void ** state;
+{
     assert_int_equal(     0, (int)strncasestr("roses", "r",    0));
     assert_int_not_equal( 0, (int)strncasestr("roses", "r",    3));
     assert_int_not_equal( 0, (int)strncasestr("roses", "R",    3));
@@ -40,7 +46,10 @@ void test_strncasestr(void ** state) {
 }
 
 
-void test_strrnstr(void ** state) {
+static void
+test_strrnstr(state)
+    void ** state;
+{
     const char * roses;
 
     roses = "roses";
@@ -58,7 +67,10 @@ void test_strrnstr(void ** state) {
 }
 
 
-void test_strrncasestr(void ** state) {
+static void
+test_strrncasestr(state)
+    void ** state;
+{
     const char * roses;
 
     roses = "roses";
@@ -80,7 +92,10 @@ void test_strrncasestr(void ** state) {
 }
 
 
-void test_strcasechr(void ** state) {
+static void
+test_strcasechr(state)
+    void ** state;
+{
     assert_int_equal(     0, (int)strcasechr("roses",   'x'));
     assert_int_equal(     0, (int)strcasechr("lillies", 'o'));
     assert_int_not_equal( 0, (int)strcasechr("Daisies", 'd'));
@@ -98,7 +113,7 @@ main() {
         unit_test( test_strnstr      ),
         unit_test( test_strncasestr  ),
         unit_test( test_strrnstr     ),
-        unit_test( test_strrncasestr )
+        unit_test( test_strrncasestr ),
     };
     return run_tests(tests);
 }

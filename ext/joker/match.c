@@ -100,14 +100,12 @@ Wildcard_match(wildcard, cstring, length, casefold) // {{{1
         match_data.rev_find_string_in_string  = strrncasestr;
         match_data.find_string_in_string      = strncasestr;
         match_data.find_char_in_string        = strcasechr;
-        match_data.string_compare             = strcasecmp;
-        match_data.string_n_compare           = strncasecmp;
+        match_data.string_compare             = strncasecmp;
     } else {
         match_data.rev_find_string_in_string  = strrnstr;
         match_data.find_string_in_string      = strnstr;
         match_data.find_char_in_string        = strchr;
-        match_data.string_compare             = strcmp;
-        match_data.string_n_compare           = strncmp;
+        match_data.string_compare             = strncmp;
     }
 
     wild = 0;

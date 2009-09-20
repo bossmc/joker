@@ -16,7 +16,7 @@ typedef struct {
 
 typedef struct {
     int           length;
-    WildpartType  last;
+    WildpartType  last;   // TODO: move out of there
     Wildpart *    parts;
 } Wildcard;
 

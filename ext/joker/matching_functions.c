@@ -97,7 +97,7 @@ match_Fixed_rev(match_data, wild)
             return 1;
         }
     } else {
-        if ((*match_data->string_n_compare)(match_data->right_input - part->length + 1, part->data, part->length) == 0) {
+        if ((*match_data->string_compare)(match_data->right_input - part->length + 1, part->data, part->length) == 0) {
             match_data->right_input -= 1;
             return 1;
         } else {
@@ -127,7 +127,7 @@ match_Fixed(match_data, wild)
             return 1;
         }
     } else {
-        if ((*match_data->string_n_compare)(match_data->left_input, part->data, part->length) == 0) {
+        if ((*match_data->string_compare)(match_data->left_input, part->data, part->length) == 0) {
             match_data->left_input += 1;
             return 1;
         } else {
