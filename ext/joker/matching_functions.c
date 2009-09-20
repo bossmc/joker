@@ -84,10 +84,12 @@ match_Fixed_rev(match_data, wild)
 {
     Wildpart *   part;
     const char * match;
+    int          length;
 
     part = match_data->right_part;
     if (wild) {
-        match = (*match_data->rev_find_string_in_string)(match_data->left_input, part->data, part->length);
+        length = match_data->right_input - match_data->left_input + 1;
+        match = (*match_data->rev_find_string_in_string)(match_data->left_input, part->data, length);
         if (match == 0) {
             return 0;
         } else {
@@ -112,10 +114,12 @@ match_Fixed(match_data, wild)
 {
     Wildpart *   part;
     const char * match;
+    int          length;
 
     part = match_data->left_part;
     if (wild) {
-        match = (*match_data->find_string_in_string)(match_data->left_input, part->data, part->length);
+        length = match_data->right_input - match_data->left_input + 1;
+        match = (*match_data->find_string_in_string)(match_data->left_input, part->data, length);
         if (match == 0) {
             return 0;
         } else {

@@ -17,11 +17,12 @@ strcasechr(string, character)
 }
 
 
-const char *
-strnstr(haystack, needle, n)
+static const char *
+strngenstr(haystack, needle, n, compare)
     const char *  haystack;
     const char *  needle;
     size_t        n;
+    int (*compare)(const char *, const char *, size_t);
 {
     int           needle_len;
     const char *  ptr;
@@ -35,11 +36,21 @@ strnstr(haystack, needle, n)
     end = haystack + n - needle_len;
     do {
         ptr += 1;
-        if (strncmp(ptr, needle, needle_len) == 0) {
+        if ((*compare)(ptr, needle, needle_len) == 0) {
             return ptr;
         }
     } while (ptr != end);
     return 0;
+}
+
+
+const char *
+strnstr(haystack, needle, n)
+    const char *  haystack;
+    const char *  needle;
+    size_t        n;
+{
+    return strngenstr(haystack, needle, n, strncmp);
 }
 
 
@@ -49,6 +60,17 @@ strncasestr(haystack, needle, n)
     const char *  needle;
     size_t        n;
 {
+    return strngenstr(haystack, needle, n, strncasecmp);
+}
+
+
+static const char *
+strrngenstr(haystackr, needle, n, compare)
+    const char *  haystackr;
+    const char *  needle;
+    size_t        n;
+    int (*compare)(const char *, const char *, size_t);
+{
     int           needle_len;
     const char *  ptr;
     const char *  end;
@@ -57,11 +79,11 @@ strncasestr(haystack, needle, n)
     if (needle_len > n) {
         return 0;
     }
-    ptr = haystack - 1;
-    end = haystack + n - needle_len;
+    end = haystackr - n + needle_len;
+    ptr = haystackr + 1;
     do {
-        ptr += 1;
-        if (strncasecmp(ptr, needle, needle_len) == 0) {
+        ptr -= 1;
+        if ((*compare)(ptr, needle, needle_len) == 0) {
             return ptr;
         }
     } while (ptr != end);
@@ -70,49 +92,21 @@ strncasestr(haystack, needle, n)
 
 
 const char *
-strrnstr(haystack, needle, n)
-    const char *  haystack;
+strrnstr(haystackr, needle, n)
+    const char *  haystackr;
     const char *  needle;
     size_t        n;
 {
-    int           needle_len;
-    const char *  ptr;
-
-    needle_len = strlen(needle);
-    if (needle_len > n) {
-        return 0;
-    }
-    ptr = haystack + n - needle_len + 1;
-    do {
-        ptr -= 1;
-        if (strncmp(ptr, needle, needle_len) == 0) {
-            return ptr;
-        }
-    } while (ptr != haystack);
-    return 0;
+    return strrngenstr(haystackr, needle, n, strncmp);
 }
 
 
 const char *
-strrncasestr(haystack, needle, n)
-    const char *  haystack;
+strrncasestr(haystackr, needle, n)
+    const char *  haystackr;
     const char *  needle;
     size_t  n;
 {
-    int           needle_len;
-    const char *  ptr;
-
-    needle_len = strlen(needle);
-    if (needle_len > n) {
-        return 0;
-    }
-    ptr = haystack + n - needle_len + 1;
-    do {
-        ptr -= 1;
-        if (strncasecmp(ptr, needle, needle_len) == 0) {
-            return ptr;
-        }
-    } while (ptr != haystack);
-    return 0;
+    return strrngenstr(haystackr, needle, n, strncasecmp);
 }
 
