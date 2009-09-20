@@ -39,14 +39,13 @@ task :ctest_compile => [:compile] do
     ofiles = FileList['../i686-linux/joker/1.8.7/*.o']
     FileList['*.o'].each do |ofile|
         sh "gcc -L. -L/usr/lib -lruby -lpthread -lcrypto -lcmockery #{ofiles} #{ofile} -o #{ofile.ext}"
-        sh "mv #{ofile.ext} ../../test/c"
     end
     Dir.chdir('../..')
 end
 
 task :ctest => [:ctest_compile] do
     puts '', '--- starting tests ----------'
-    FileList['test/c/*.c'].each do |cfile|
+    FileList['tmp/test/*.o'].each do |cfile|
         sh cfile.ext
     end
 end
