@@ -56,9 +56,16 @@ static void
 test_match_Wild(state)
     void ** state;
 {
-    MatchData * match_data;
+    MatchData *   match_data;
+    const char *  left_input;
+    const char *  right_input;
     
-    match_data = *state;
+    match_data  = *state;
+    left_input  = match_data->left_input;
+    right_input = match_data->right_input;
+    match_Wild(match_data);
+    assert_int_equal((int)left_input+1, (int)match_data->left_input);
+    assert_int_equal((int)right_input,  (int)match_data->right_input);
 }
 
 
@@ -66,6 +73,16 @@ static void
 test_match_Wild_rev(state)
     void ** state;
 {
+    MatchData *   match_data;
+    const char *  left_input;
+    const char *  right_input;
+    
+    match_data  = *state;
+    left_input  = match_data->left_input;
+    right_input = match_data->right_input;
+    match_Wild_rev(match_data);
+    assert_int_equal((int)left_input,    (int)match_data->left_input);
+    assert_int_equal((int)right_input-1, (int)match_data->right_input);
 }
 
 

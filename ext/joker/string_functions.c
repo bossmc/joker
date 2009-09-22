@@ -1,4 +1,5 @@
 #include <ctype.h>
+#include <stddef.h>
 #include "string_functions.h"
 
 char *
@@ -9,7 +10,7 @@ strcasechr(string, character)
     char * result;
 
     result = strchr(string, tolower(character));
-    if (result == 0) {
+    if (result == NULL) {
         return strchr(string, toupper(character));
     } else {
         return result;
@@ -30,7 +31,7 @@ strngenstr(haystack, needle, n, compare)
 
     needle_len = strlen(needle);
     if (needle_len > n) {
-        return 0;
+        return NULL;
     }
     ptr = haystack - 1;
     end = haystack + n - needle_len;
@@ -40,7 +41,7 @@ strngenstr(haystack, needle, n, compare)
             return ptr;
         }
     } while (ptr != end);
-    return 0;
+    return NULL;
 }
 
 
@@ -77,7 +78,7 @@ strrngenstr(haystackr, needle, n, compare)
 
     needle_len = strlen(needle);
     if (needle_len > n) {
-        return 0;
+        return NULL;
     }
     end = haystackr - n + needle_len;
     ptr = haystackr + 1;
@@ -87,7 +88,7 @@ strrngenstr(haystackr, needle, n, compare)
             return ptr;
         }
     } while (ptr != end);
-    return 0;
+    return NULL;
 }
 
 

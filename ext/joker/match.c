@@ -1,3 +1,4 @@
+#include <stdbool.h>
 #include "match.h"
 #include "string_functions.h"
 #include "matching_functions.h"
@@ -13,22 +14,22 @@ match_from_left(match_data, wild) // {{{1
     while (match_data->left_part <= match_data->right_part) {
         switch (match_data->left_part->type) {
             case Group:
-                if (match_Group(match_data, wild) == 0) {
-                    return 0;
+                if (match_Group(match_data, wild) == false) {
+                    return false;
                 }
-                wild = 0;
+                wild = false;
                 break;
             case Wild:
                 match_Wild(match_data);
                 break;
             case Fixed:
-                if (match_Fixed(match_data, wild) == 0) {
-                    return 0;
+                if (match_Fixed(match_data, wild) == false) {
+                    return false;
                 }
-                wild = 0;
+                wild = false;
                 break;
             case Kleene:
-                return 1;
+                return true;
         }
         match_data->left_part += 1;
     }
@@ -43,25 +44,25 @@ match_from_right(match_data, wild) // {{{1
     while (match_data->left_part <= match_data->right_part) {
         switch (match_data->right_part->type) {
             case Group:
-                if (match_Group_rev(match_data, wild) == 0) {
-                    return 0;
+                if (match_Group_rev(match_data, wild) == false) {
+                    return false;
                 }
-                wild = 0;
+                wild = false;
                 break;
             case Wild:
                 match_Wild_rev(match_data);
                 break;
             case Fixed:
-                if (match_Fixed_rev(match_data, wild) == 0) {
-                    return 0;
+                if (match_Fixed_rev(match_data, wild) == false) {
+                    return false;
                 }
-                wild = 0;
+                wild = false;
                 break;
             case Kleene:
-                return 1;
+                return true;
         }
         match_data->right_part -= 1;
-        wild = 0;
+        wild = false;
     }
 }
 
@@ -108,25 +109,25 @@ Wildcard_match(wildcard, cstring, length, casefold) // {{{1
         match_data.string_compare             = strncmp;
     }
 
-    wild = 0;
-    while (1) {
+    wild = false;
+    while (true) {
         input_end = (match_data.left_input > match_data.right_input);
         parts_end = (match_data.left_part  > match_data.right_part );
 
         if (input_end && parts_end) {
-            return 1;
+            return true;
         } else if (input_end || parts_end) {
-            return 0;
+            return false;
         }
 
-        if (match_from_left(&match_data, wild) == 0) {
-            return 0;
+        if (match_from_left(&match_data, wild) == false) {
+            return false;
         }
-        if (match_from_right(&match_data, wild) == 0) {
-            return 0;
+        if (match_from_right(&match_data, wild) == false) {
+            return false;
         }
         match_kleenes(&match_data);
-        wild = 1;
+        wild = true;
     }
 }
 

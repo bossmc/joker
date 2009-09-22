@@ -1,3 +1,5 @@
+#include <stddef.h>
+#include <stdbool.h>
 #include "matching_functions.h"
 
 
@@ -30,18 +32,18 @@ match_Group_rev(match_data, wild)
         ptr = match_data->right_input + 1;
         do {
             ptr -= 1;
-            if ((*match_data->find_char_in_string)(part->data, *ptr) != 0) {
+            if ((*match_data->find_char_in_string)(part->data, *ptr) != NULL) {
                 match_data->right_input = ptr;
-                return 1;
+                return true;
             }
         } while(ptr != match_data->left_input);
-        return 0;
+        return false;
     } else {
-        if ((*match_data->find_char_in_string)(part->data, *match_data->right_input) != 0) {
+        if ((*match_data->find_char_in_string)(part->data, *match_data->right_input) != NULL) {
             match_data->right_input -= 1;
-            return 1;
+            return true;
         } else {
-            return 0;
+            return false;
         }
     }
 }
@@ -60,18 +62,18 @@ match_Group(match_data, wild)
         ptr = match_data->left_input - 1;
         do {
             ptr += 1;
-            if ((*match_data->find_char_in_string)(part->data, *ptr) != 0) {
+            if ((*match_data->find_char_in_string)(part->data, *ptr) != NULL) {
                 match_data->left_input = ptr;
-                return 1;
+                return true;
             }
         } while(ptr != match_data->right_input);
-        return 0;
+        return false;
     } else {
-        if ((*match_data->find_char_in_string)(part->data, *match_data->left_input) != 0) {
+        if ((*match_data->find_char_in_string)(part->data, *match_data->left_input) != NULL) {
             match_data->left_input += 1;
-            return 1;
+            return true;
         } else {
-            return 0;
+            return false;
         }
     }
 }
@@ -90,18 +92,18 @@ match_Fixed_rev(match_data, wild)
     if (wild) {
         length = match_data->right_input - match_data->left_input + 1;
         match = (*match_data->rev_find_string_in_string)(match_data->left_input, part->data, length);
-        if (match == 0) {
-            return 0;
+        if (match == NULL) {
+            return false;
         } else {
             match_data->right_input = match - 1;
-            return 1;
+            return true;
         }
     } else {
         if ((*match_data->string_compare)(match_data->right_input - part->length + 1, part->data, part->length) == 0) {
             match_data->right_input -= 1;
-            return 1;
+            return true;
         } else {
-            return 0;
+            return false;
         }
     }
 }
@@ -120,18 +122,18 @@ match_Fixed(match_data, wild)
     if (wild) {
         length = match_data->right_input - match_data->left_input + 1;
         match = (*match_data->find_string_in_string)(match_data->left_input, part->data, length);
-        if (match == 0) {
-            return 0;
+        if (match == NULL) {
+            return false;
         } else {
             match_data->left_input = match;
-            return 1;
+            return true;
         }
     } else {
         if ((*match_data->string_compare)(match_data->left_input, part->data, part->length) == 0) {
             match_data->left_input += 1;
-            return 1;
+            return true;
         } else {
-            return 0;
+            return false;
         }
     }
 }

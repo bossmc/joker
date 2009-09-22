@@ -1,4 +1,5 @@
 #include <malloc.h>
+#include <stddef.h>
 #include "Joker.h"
 #include "Wildcard.h"
 #include "compile.h"
@@ -80,7 +81,7 @@ class_method_new(argc, argv, klass)  // {{{1
 
     wildcard_cstring = rb_str2cstr(wildcard_string, &string_length);
     new_wildcard     = Wildcard_compile(wildcard_cstring, string_length);
-    new_object       = Data_Wrap_Struct(klass, 0, Wildcard_free, new_wildcard); 
+    new_object       = Data_Wrap_Struct(klass, NULL, Wildcard_free, new_wildcard); 
 
     rb_iv_set(new_object, "@casefold", casefold);
 

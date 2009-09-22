@@ -1,5 +1,6 @@
 #include <malloc.h>
 #include <stdio.h>
+#include <stddef.h>
 #include <string.h>
 #include <string.h>
 #include <ruby.h>
@@ -193,11 +194,10 @@ do_transition(transition, input, state, wildcard)  // {{{1
 }
 
 
-void
-Wildcard_compile(cstring, len, wildcard)  // {{{1
+Wildcard *
+Wildcard_compile(cstring, len)  // {{{1
     const char *    cstring;
     const long int  len;
-    Wildcard *      wildcard;
 {
     // the table that maps (state x input) -> transition
     const char transition_table[4][7] = {
@@ -209,10 +209,16 @@ Wildcard_compile(cstring, len, wildcard)  // {{{1
     };
     int state = 0;
 
-    long int  p;
-    char      input;
-    int       hashed;
-    char      transition;
+    Wildcard * wildcard;
+    long int   p;
+    char       input;
+    int        hashed;
+    char       transition;
+
+    wildcard         = malloc(sizeof(Wildcard));
+    wildcard->parts  = NULL;
+    wildcard->length = 0;
+    wildcard->last   = None;
 
     for (p = 0; p < len; p++) {
         input = cstring[p];

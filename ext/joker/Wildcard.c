@@ -10,8 +10,8 @@ Wildcard_free(wildcard)
     int i;
 
     for(i = 0; i < wildcard->length; i++) {
-        if (wildcart->parts[i].data != NULL) {
-            free(wildcard->parts->data);
+        if (wildcard->parts[i].data != NULL) {
+            free(wildcard->parts[i].data);
         }
     }
     free(wildcard->parts);
