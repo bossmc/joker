@@ -15,21 +15,6 @@ Init_joker(void)  // {{{1
 }
 
 
-/*
- * call-seq:
- *   wildcard =~ 'string' -> true or false
- *   'string' =~ wildcard -> true or false
- *
- * Matches the Wildcard against the given string.
- *
- * NOTE: Since a wildcard has to match the whole string,
- * this method only returns true or false, not the position
- * of the match.
- *
- *   Wildcard['*fairy*'] =~ 'I love fairycake'   #=> true
- *   'I love fairycake' =~ Wildcard['*dairy*']   #=> false
- *
- */
 VALUE
 instance_operator_match(self, string)  // {{{1
     VALUE  self;
@@ -52,19 +37,6 @@ instance_operator_match(self, string)  // {{{1
 }
 
 
-/*
- * call-seq:
- *   wildcard === 'string' -> true or false
- *
- * The case operator. Allows you to use Wildcards in case
- * expressions:
- *
- *   case 'I love fairycake'
- *   when Wildcard['*fairy*'] then puts 'fairy!'
- *   else puts 'no fairy...'
- *   end
- *
- */
 VALUE
 instance_operator_case(self, object)  // {{{1
     VALUE  self;
@@ -88,22 +60,6 @@ instance_operator_case(self, object)  // {{{1
 }
 
 
-/*
- * call-seq:
- *   Wildcard.new(wildcard_string, casefold = false) -> Wildcard
- *
- * Creates a new Wildcard from the given string.
- * If casefold is true, the Wildcard will ignore case.
- *
- * Raisess a SyntaxError if the given string could not
- * be interpreted as a Wildcard.
- *
- * Issues warnings to the console if the given Wildcard
- * was malformed.
- *
- * TODO: Wildcard.warn = false
- *
- */
 VALUE
 class_method_new(argc, argv, klass)  // {{{1
     int      argc;
@@ -123,8 +79,7 @@ class_method_new(argc, argv, klass)  // {{{1
     }
 
     wildcard_cstring = rb_str2cstr(wildcard_string, &string_length);
-    new_wildcard     = Wildcard_init();
-    Wildcard_compile(wildcard_cstring, string_length, new_wildcard);
+    new_wildcard     = Wildcard_compile(wildcard_cstring, string_length);
     new_object       = Data_Wrap_Struct(klass, 0, Wildcard_free, new_wildcard); 
 
     rb_iv_set(new_object, "@casefold", casefold);
