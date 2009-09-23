@@ -10,50 +10,6 @@
 
 
 static void
-setup(state)
-    void ** state;
-{
-    MatchData *  match_data;
-    Wildcard *   wildcard;
-    Wildpart *   wildpart;
-    char *       input;
-
-    match_data = test_malloc(sizeof(MatchData));
-    wildpart   = test_malloc(sizeof(Wildpart));
-    input      = test_malloc(sizeof(char)*7);
-    memcpy(input, "orchid", 7);
-
-    match_data->rev_find_string_in_string = strrnstr;
-    match_data->find_string_in_string     = strnstr;
-    match_data->find_char_in_string       = strchr;
-    match_data->string_compare            = strncmp;
-
-    match_data->right_input               = input + strlen(input) - 1;
-    match_data->left_input                = input;
-    match_data->right_part                = wildpart;
-    match_data->left_part                 = wildpart;
-
-    *state                                = match_data;
-}
-
-
-static void
-teardown(state)
-    void ** state;
-{
-    MatchData * match_data;
-
-    match_data = *state;
-    while (*match_data->left_input != 'o') {
-        match_data->left_input -= 1;
-    }
-    test_free((char*)match_data->left_input);
-    test_free(match_data->left_part);
-    test_free(match_data);
-}
-
-
-static void
 test_match_Wild(state)
     void ** state;
 {
@@ -328,6 +284,50 @@ static void
 test_match_Group_rev_wild(state)
     void ** state;
 {
+}
+
+
+static void
+setup(state)
+    void ** state;
+{
+    MatchData *  match_data;
+    Wildcard *   wildcard;
+    Wildpart *   wildpart;
+    char *       input;
+
+    match_data = test_malloc(sizeof(MatchData));
+    wildpart   = test_malloc(sizeof(Wildpart));
+    input      = test_malloc(sizeof(char)*7);
+    memcpy(input, "orchid", 7);
+
+    match_data->rev_find_string_in_string = strrnstr;
+    match_data->find_string_in_string     = strnstr;
+    match_data->find_char_in_string       = strchr;
+    match_data->string_compare            = strncmp;
+
+    match_data->right_input               = input + strlen(input) - 1;
+    match_data->left_input                = input;
+    match_data->right_part                = wildpart;
+    match_data->left_part                 = wildpart;
+
+    *state                                = match_data;
+}
+
+
+static void
+teardown(state)
+    void ** state;
+{
+    MatchData * match_data;
+
+    match_data = *state;
+    while (*match_data->left_input != 'o') {
+        match_data->left_input -= 1;
+    }
+    test_free((char*)match_data->left_input);
+    test_free(match_data->left_part);
+    test_free(match_data);
 }
 
 int
