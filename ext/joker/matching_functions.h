@@ -9,6 +9,8 @@
  * end against the given match data. The part must be
  * the current right part in the match data.
  *
+ * The input of the match data must not be consumed.
+ *
  * Always succeeds.
  *
  */
@@ -21,6 +23,8 @@ match_Wild_rev(
  * Matches a single Wildpart of type Wild from the left
  * end against the given match data. The part must be
  * the current left part in the match data.
+ *
+ * The input of the match data must not be consumed.
  *
  * Always succeeds.
  *
@@ -37,6 +41,8 @@ match_Wild(
  *
  * wild determines whether the part must occurr at the
  * end of the input (false) or anywhere in the input (true).
+ *
+ * The input of the match data must not be consumed.
  *
  * Returns true on success and false otherwise.
  *
@@ -56,6 +62,8 @@ match_Group_rev(
  * beginning of the input (false) or anywhere in the
  * input (true).
  *
+ * The input of the match data must not be consumed.
+ *
  * Returns true on success and false otherwise.
  *
  */
@@ -72,6 +80,8 @@ match_Group(
  *
  * wild determines whether the part must occurr at the
  * end of the input (false) or anywhere in the input (true).
+ *
+ * The input of the match data must not be consumed.
  *
  * Returns true on success and false otherwise.
  *
@@ -90,6 +100,8 @@ match_Fixed_rev(
  * wild determines whether the part must occurr at the
  * beginning of the input (false) or anywhere in the
  * input (true).
+ *
+ * The input of the match data must not be consumed.
  *
  * Returns true on success and false otherwise.
  *

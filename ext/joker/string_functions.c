@@ -74,20 +74,21 @@ strrngenstr(haystackr, needle, n, compare)
 {
     int           needle_len;
     const char *  ptr;
-    const char *  end;
+    int           times;
 
     needle_len = strlen(needle);
     if (needle_len > n) {
         return NULL;
     }
-    end = haystackr - n + needle_len;
-    ptr = haystackr + 1;
-    do {
-        ptr -= 1;
+    ptr   = haystackr - needle_len + 1;
+    times = n - needle_len + 1;
+    while (times > 0) {
         if ((*compare)(ptr, needle, needle_len) == 0) {
             return ptr;
         }
-    } while (ptr != end);
+        ptr -= 1;
+        times -= 1;
+    }
     return NULL;
 }
 

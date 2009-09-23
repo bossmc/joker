@@ -29,8 +29,8 @@ strrncasestr(
  * Does not include the terminating \0 in the search.
  *
  *  strrnstr("haystack", "yst", 3);  //=> NULL
- *  strrnstr("haystack", "yst", 9);  //=> pointer to the 'y' in "haystack"
- *  strrnstr("haystack", "a",   9);  //=> pointer to the last 'a' in "haystack"
+ *  strrnstr("haystack", "yst", 8);  //=> pointer to the 'y' in "haystack"
+ *  strrnstr("haystack", "a",   8);  //=> pointer to the last 'a' in "haystack"
  *
  **/
 const char *
@@ -63,8 +63,8 @@ strncasestr(
  * Does not include the terminating \0 in the search.
  *
  *  strnstr("haystack", "sac", 3)  //=> NULL
- *  strnstr("haystack", "sac", 9)  //=> pointer to the 's' in "haystack"
- *  strnstr("haystack", "a",   9)  //=> pointer to the first 'a' in "haystack"
+ *  strnstr("haystack", "sac", 8)  //=> pointer to the 's' in "haystack"
+ *  strnstr("haystack", "a",   8)  //=> pointer to the first 'a' in "haystack"
  *
  **/
 const char *

@@ -15,12 +15,12 @@ test_strnstr(state)
     assert_int_equal(     0, (int)strnstr("roses", "x",    3));
     assert_int_equal(     0, (int)strnstr("roses", "e",    3));
     assert_int_not_equal( 0, (int)strnstr("roses", "s",    3));
-    assert_int_equal(     0, (int)strnstr("roses", "x",    9));
-    assert_int_equal(     0, (int)strnstr("roses", "ross", 9));
-    assert_int_equal(     0, (int)strnstr("roses", "sess", 9));
-    assert_int_not_equal( 0, (int)strnstr("roses", "ose",  9));
-    assert_int_not_equal( 0, (int)strnstr("roses", "ro",   9));
-    assert_int_not_equal( 0, (int)strnstr("roses", "es",   9));
+    assert_int_equal(     0, (int)strnstr("roses", "x",    5));
+    assert_int_equal(     0, (int)strnstr("roses", "ross", 5));
+    assert_int_equal(     0, (int)strnstr("roses", "sess", 5));
+    assert_int_not_equal( 0, (int)strnstr("roses", "ose",  5));
+    assert_int_not_equal( 0, (int)strnstr("roses", "ro",   5));
+    assert_int_not_equal( 0, (int)strnstr("roses", "es",   5));
 }
 
 
@@ -35,14 +35,14 @@ test_strncasestr(state)
     assert_int_equal(     0, (int)strncasestr("roses", "e",    3));
     assert_int_not_equal( 0, (int)strncasestr("roses", "s",    3));
     assert_int_not_equal( 0, (int)strncasestr("roses", "S",    3));
-    assert_int_equal(     0, (int)strncasestr("roses", "x",    9));
-    assert_int_equal(     0, (int)strncasestr("roses", "ross", 9));
-    assert_int_equal(     0, (int)strncasestr("roses", "sess", 9));
-    assert_int_not_equal( 0, (int)strncasestr("roses", "ose",  9));
-    assert_int_not_equal( 0, (int)strncasestr("roses", "oSe",  9));
-    assert_int_not_equal( 0, (int)strncasestr("roses", "OSE",  9));
-    assert_int_not_equal( 0, (int)strncasestr("roses", "ro",   9));
-    assert_int_not_equal( 0, (int)strncasestr("roses", "es",   9));
+    assert_int_equal(     0, (int)strncasestr("roses", "x",    5));
+    assert_int_equal(     0, (int)strncasestr("roses", "ross", 5));
+    assert_int_equal(     0, (int)strncasestr("roses", "sess", 5));
+    assert_int_not_equal( 0, (int)strncasestr("roses", "ose",  5));
+    assert_int_not_equal( 0, (int)strncasestr("roses", "oSe",  5));
+    assert_int_not_equal( 0, (int)strncasestr("roses", "OSE",  5));
+    assert_int_not_equal( 0, (int)strncasestr("roses", "ro",   5));
+    assert_int_not_equal( 0, (int)strncasestr("roses", "es",   5));
 }
 
 
@@ -59,11 +59,11 @@ test_strrnstr(state)
     assert_int_equal(     0, (int)strrnstr(roses, "x",    3));
     assert_int_equal(     0, (int)strrnstr(roses, "o",    3));
     assert_int_not_equal( 0, (int)strrnstr(roses, "e",    3));
-    assert_int_equal(     0, (int)strrnstr(roses, "x",    9));
-    assert_int_equal(     0, (int)strrnstr(roses, "ross", 9));
-    assert_int_equal(     0, (int)strrnstr(roses, "sess", 9));
-    assert_int_not_equal( 0, (int)strrnstr(roses, "ose",  9));
-    assert_int_not_equal( 0, (int)strrnstr(roses, "oses", 9));
+    assert_int_equal(     0, (int)strrnstr(roses, "x",    5));
+    assert_int_equal(     0, (int)strrnstr(roses, "ross", 5));
+    assert_int_equal(     0, (int)strrnstr(roses, "sess", 5));
+    assert_int_not_equal( 0, (int)strrnstr(roses, "ose",  5));
+    assert_int_not_equal( 0, (int)strrnstr(roses, "oses", 5));
 }
 
 
@@ -82,13 +82,13 @@ test_strrncasestr(state)
     assert_int_equal(     0, (int)strrncasestr(roses, "o",    3));
     assert_int_not_equal( 0, (int)strrncasestr(roses, "e",    3));
     assert_int_not_equal( 0, (int)strrncasestr(roses, "E",    3));
-    assert_int_equal(     0, (int)strrncasestr(roses, "x",    9));
-    assert_int_equal(     0, (int)strrncasestr(roses, "ross", 9));
-    assert_int_equal(     0, (int)strrncasestr(roses, "sess", 9));
-    assert_int_not_equal( 0, (int)strrncasestr(roses, "ose",  9));
-    assert_int_not_equal( 0, (int)strrncasestr(roses, "oSe",  9));
-    assert_int_not_equal( 0, (int)strrncasestr(roses, "OSE",  9));
-    assert_int_not_equal( 0, (int)strrncasestr(roses, "oses", 9));
+    assert_int_equal(     0, (int)strrncasestr(roses, "x",    5));
+    assert_int_equal(     0, (int)strrncasestr(roses, "ross", 5));
+    assert_int_equal(     0, (int)strrncasestr(roses, "sess", 5));
+    assert_int_not_equal( 0, (int)strrncasestr(roses, "ose",  5));
+    assert_int_not_equal( 0, (int)strrncasestr(roses, "oSe",  5));
+    assert_int_not_equal( 0, (int)strrncasestr(roses, "OSE",  5));
+    assert_int_not_equal( 0, (int)strrncasestr(roses, "oses", 5));
 }
 
 

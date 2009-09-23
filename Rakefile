@@ -44,9 +44,9 @@ task :ctest_compile => [:compile] do
 end
 
 task :ctest => [:ctest_compile] do
-    puts '', '--- starting tests ----------'
     FileList['tmp/test/*.o'].each do |cfile|
-        sh cfile.ext
+    puts '', '------------------------'
+        sh "#{cfile.ext} || true"
     end
 end
 
