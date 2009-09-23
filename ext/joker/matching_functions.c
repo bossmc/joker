@@ -33,7 +33,7 @@ match_Group_rev(match_data, wild)
         do {
             ptr -= 1;
             if ((*match_data->find_char_in_string)(part->data, *ptr) != NULL) {
-                match_data->right_input = ptr;
+                match_data->right_input = ptr - 1;
                 return true;
             }
         } while(ptr != match_data->left_input);
@@ -63,7 +63,7 @@ match_Group(match_data, wild)
         do {
             ptr += 1;
             if ((*match_data->find_char_in_string)(part->data, *ptr) != NULL) {
-                match_data->left_input = ptr;
+                match_data->left_input = ptr + 1;
                 return true;
             }
         } while(ptr != match_data->right_input);
