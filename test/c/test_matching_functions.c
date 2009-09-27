@@ -355,6 +355,45 @@ static void
 test_match_Group_rev(state)
     void ** state;
 {
+    MatchData *   match_data;
+    const char *  left_input;
+    const char *  right_input;
+
+    //
+    // possible scenarios:
+    // *    empty input                  impossible (prohibited by specification)
+    //      non-empty input              possible
+    // *    empty part                   impossible (prohibited by compilation process)
+    //      non-empty part               possible
+    // *    part matches at beginning    possible
+    //      part matches, but later      possible
+    //      part does not match          possible
+    //
+    // => 1*1*3 = 3 scenarios
+    //
+    
+    match_data                       = *state;
+    left_input                       = match_data->left_input;
+    right_input                      = match_data->right_input;
+    match_data->right_part->data     = "dxp";
+    match_data->right_part->length   = 3;
+    assert_true(match_Group_rev(match_data, false));
+    assert_int_equal((int)left_input,     (int)match_data->left_input);
+    assert_int_equal((int)right_input-1,  (int)match_data->right_input);
+
+    match_data->right_input          = right_input;
+    match_data->right_part->length   = 3;
+    match_data->right_part->data     = "rch";
+    assert_false(match_Group_rev(match_data, false));
+    assert_int_equal((int)left_input,   (int)match_data->left_input);
+    assert_int_equal((int)right_input,  (int)match_data->right_input);
+
+    match_data->right_input          = right_input;
+    match_data->right_part->length   = 3;
+    match_data->right_part->data     = "xus";
+    assert_false(match_Group_rev(match_data, false));
+    assert_int_equal((int)left_input,  (int)match_data->left_input);
+    assert_int_equal((int)right_input, (int)match_data->right_input);
 }
 
 
@@ -362,6 +401,45 @@ static void
 test_match_Group_rev_wild(state)
     void ** state;
 {
+    MatchData *   match_data;
+    const char *  left_input;
+    const char *  right_input;
+
+    //
+    // possible scenarios:
+    // *    empty input                  impossible (prohibited by specification)
+    //      non-empty input              possible
+    // *    empty part                   impossible (prohibited by compilation process)
+    //      non-empty part               possible
+    // *    part matches at beginning    possible
+    //      part matches, but later      possible
+    //      part does not match          possible
+    //
+    // => 1*1*3 = 3 scenarios
+    //
+    
+    match_data                       = *state;
+    left_input                       = match_data->left_input;
+    right_input                      = match_data->right_input;
+    match_data->right_part->data     = "dxp";
+    match_data->right_part->length   = 3;
+    assert_true(match_Group_rev(match_data, true));
+    assert_int_equal((int)left_input,     (int)match_data->left_input);
+    assert_int_equal((int)right_input-1,  (int)match_data->right_input);
+
+    match_data->right_input          = right_input;
+    match_data->right_part->length   = 3;
+    match_data->right_part->data     = "rch";
+    assert_true(match_Group_rev(match_data, true));
+    assert_int_equal((int)left_input,     (int)match_data->left_input);
+    assert_int_equal((int)right_input-3,  (int)match_data->right_input);
+
+    match_data->right_input          = right_input;
+    match_data->right_part->length   = 3;
+    match_data->right_part->data     = "xus";
+    assert_false(match_Group_rev(match_data, true));
+    assert_int_equal((int)left_input,  (int)match_data->left_input);
+    assert_int_equal((int)right_input, (int)match_data->right_input);
 }
 
 
