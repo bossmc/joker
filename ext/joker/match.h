@@ -2,22 +2,18 @@
 #define MATCH_H_GUARD
 
 #include "Wildcard.h"
+#include "stdbool.h"
 
 
 /*
- * Matches the given Wildcard against the given string.
- * If casefold is true, ignores the case of the string
- * and wildcard.
- *
- * Returns true iff the Wildcard matches the string.
+ * Matches a given Wildcard against a given string and returns
+ * true on success and false otherwise.
  *
  */
-int Wildcard_match(
-    Wildcard *      wildcard,   /* The wildcard to match         */
-    const char *    cstring,    /* The string to match against   */
-    const long int  length,     /* The length of the string      */
-    const int       casefold    /* Whether or not to ignore case */
-);
+bool Wildcard_match(
+        Wildcard *     wildcard   /* The wildcard to match                      */
+        const char *   cstring,   /* The string to match against                */
+        const long int len);      /* The length of the string                   */
 
 
 #endif

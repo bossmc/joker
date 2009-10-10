@@ -3,18 +3,27 @@
 #include "Wildcard.h"
 
 
-void
-Wildcard_free(wildcard)
+void Wildcard_init(wildcard)
     Wildcard *  wildcard;
 {
-    int i;
+    wildcard->length = 0;
+    wildcard->first  = NULL;
+    wildcard->last   = NULL;
+}
 
-    for(i = 0; i < wildcard->length; i++) {
-        if (wildcard->parts[i].data != NULL) {
-            free(wildcard->parts[i].data);
-        }
-    }
-    free(wildcard->parts);
-    free(wildcard);
+
+void Wildcard_free(wildcard)
+    Wildcard *  wildcard;
+{
+    free(wildcard->first);
+}
+
+
+void Wildcard_enlarge(wildcard)
+    Wildcard *  wildcard;
+{
+    wildcard->length += 2;
+    realloc(wildcard->first, wildcard->length);
+    wildcard->last = wildcard->first + length - 2;
 }
 

@@ -2,28 +2,13 @@
 #define WILDCARD_H_GUARD
 
 
-/*
- * All the types of Wildparts.
- *
- * None is only used during compilation.
- *
- */
 typedef enum {
-    Fixed, Wild, Kleene, Group, None
-} WildpartType;
-
-
-/*
- * Represents one unit in a Wildcard.
- * Can represent any of the four WildpartTypes.
- *
- */
-typedef struct {
-    WildpartType  type;     /* The Wildpart's type          */
-    int           length;   /* The length of Fixed or Group */
-    char *        data;     /* The data for Fixed and Group */
-} Wildpart;
-
+    Fixed   = 1,
+    Group   = 2,
+    Wild    = 4,
+    Kleene  = 8,
+    EOW     = 16,
+} WildcardType;
 
 /*
  * Represents a Wildcard.
@@ -31,17 +16,32 @@ typedef struct {
  *
  */
 typedef struct {
-    int           length;   /* The number of parts in this Wildcard */
-    WildpartType  last;
-    Wildpart *    parts;    /* A CArray of parts */
+    char *   first;
+    char *   last;
+    long int length;
 } Wildcard;
 
 
 /*
- * Frees a Wildcard and all it's associated parts.
+ * Initializes a Wildcard.
+ *
+ */
+void Wildcard_init(Wildcard * wildcard);
+
+
+/*
+ * Frees a Wildcard.
  *
  */
 void Wildcard_free(Wildcard * wildcard);
+
+
+/*
+ * Adds two additional characters at the end
+ * and adjusts all the pointers.
+ *
+ */
+void Wildcard_enlarge(Wildcard * wildcard);
 
 
 #endif

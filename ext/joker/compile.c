@@ -8,8 +8,7 @@
 #include "CArray.h"
 
 
-static int
-hash(cchar)  // {{{1
+static int hash(cchar)  // {{{1
     const char  cchar;
 {
     switch (cchar) {
@@ -29,100 +28,18 @@ hash(cchar)  // {{{1
 }
 
 
-static void
-push_fixed(cchar, wildcard)  // {{{1
-    const char  cchar;
-    Wildcard *  wildcard;
+static void push(type, cchar, wildcard)  // {{{1
+    const WildcardType  type;
+    const char          cchar;
+    Wildcard *          wildcard;
 {
-    char *      new_char;
-    Wildpart *  part;
-
-    switch (wildcard->last) {
-        case Fixed:  // add to current string
-            part        = wildcard->parts + wildcard->length - 1;
-            new_char = CArray_enlarge(&part->data, char, part->length);
-            part->length += 1;
-            *(new_char - 1)  = cchar;
-            *new_char        = '\0';
-            break;
-        default:     // add new array entry
-            part = CArray_enlarge(&wildcard->parts, Wildpart, wildcard->length);
-            wildcard->length += 1;
-            part->type     = Fixed;
-            part->length   = 1;
-            part->data     = malloc(sizeof(char)*2);
-            part->data[0]  = cchar;
-            part->data[1]  = '\0';
-            break;
-    }
+    Wildcard_enlarge(wildcard);
+    *(wildcard->last - 1) = (char) type;
+    *wildcard->last       = cchar;
 }
 
 
-static void
-push_wild(wildcard)  // {{{1
-    Wildcard *  wildcard;
-{
-    Wildpart *  part;
-
-    switch (wildcard->last) {
-        default:      // add new array entry
-            part = CArray_enlarge(&wildcard->parts, Wildpart, wildcard->length);
-            wildcard->length += 1;
-            part->type = Wild;
-            break;
-    }
-}
-
-
-static void
-push_kleene(wildcard)  // {{{1
-    Wildcard *  wildcard;
-{
-    Wildpart *  part;
-
-    switch (wildcard->last) {
-        case Kleene:  // transform ** --> *
-            break;
-        default:      // add new array entry
-            part = CArray_enlarge(&wildcard->parts, Wildpart, wildcard->length);
-            wildcard->length += 1;
-            part->type = Kleene;
-            break;
-    }
-}
-
-
-static void
-push_group(cchar, wildcard)  // {{{1
-    const char  cchar;
-    Wildcard *  wildcard;
-{
-    char *      new_char;
-    Wildpart *  part;
-
-    switch (wildcard->last) {
-        case Group:  // add to current group
-            part      = wildcard->parts + wildcard->length - 1;
-            new_char  = CArray_enlarge(&part->data, char, part->length);
-            part->length += 1;
-            *(new_char - 1)  = cchar;
-            *new_char        = '\0';
-            break;
-        default:     // add new array entry
-            part = CArray_enlarge(&wildcard->parts, Wildpart, wildcard->length);
-            wildcard->length += 1;
-            part->type     = Group;
-            part->length   = 1;
-            part->data     = malloc(sizeof(char)*2);
-            part->data[0]  = cchar;
-            part->data[1]  = '\0';
-            break;
-    }
-}
-
-
-static void
-do_transition(transition, input, state, wildcard)  // {{{1
+static void do_transition(transition, input, state, wildcard)  // {{{1
     const char  transition;
     const char  input;
     int *       state;
@@ -136,46 +53,46 @@ do_transition(transition, input, state, wildcard)  // {{{1
             *state = 2;
             break;
         case 2:
-            push_fixed(input, wildcard);
+            push(Fixed, input, wildcard);
             rb_warn("wildcard has `]' without escape");
             break;
         case 3:
-            push_kleene(wildcard);
+            push(Kleene, wildcard);
             break;
         case 4:
-            push_wild(wildcard);
+            push(Wild, wildcard);
             break;
         case 5:
-            push_fixed(input, wildcard);
+            push(Fixed, input, wildcard);
             break;
         case 6:
             *state = -1;
             break;
         case 7:
             *state = 0;
-            push_fixed(input, wildcard);
+            push(Fixed, input, wildcard);
             break;
         case 8:
             *state = 0;
-            push_fixed('\\', wildcard);
-            push_fixed(input, wildcard);
+            push(Fixed, '\\', wildcard);
+            push(Fixed, input, wildcard);
             break;
         case 9:
             *state = -1;
-            push_fixed('\\', wildcard);
+            push(Fixed, '\\', wildcard);
             break;
         case 10:
             *state = 3;
             break;
         case 11:
-            push_group(input, wildcard);
+            push(Group, input, wildcard);
             rb_warn("character class has `[' without escape");
             break;
         case 12:
             *state = 0;
             break;
         case 13:
-            push_group(input, wildcard);
+            push(Group, input, wildcard);
             break;
         case 14:
             *state = -1;
@@ -183,19 +100,18 @@ do_transition(transition, input, state, wildcard)  // {{{1
             break;
         case 15:
             *state = 2;
-            push_group(input, wildcard);
+            push(Group, input, wildcard);
             break;
         case 16:
             *state = 2;
-            push_group('\\', wildcard);
-            push_group(input, wildcard);
+            push(Group, '\\', wildcard);
+            push(Group, input, wildcard);
             break;
     }
 }
 
 
-Wildcard *
-Wildcard_compile(cstring, len)  // {{{1
+Wildcard * Wildcard_compile(cstring, len)  // {{{1
     const char *    cstring;
     const long int  len;
 {
@@ -215,10 +131,8 @@ Wildcard_compile(cstring, len)  // {{{1
     int        hashed;
     char       transition;
 
-    wildcard         = malloc(sizeof(Wildcard));
-    wildcard->parts  = NULL;
-    wildcard->length = 0;
-    wildcard->last   = None;
+    wildcard = malloc(sizeof(Wildcard));
+    Wildcard_init(wildcard);
 
     for (p = 0; p < len; p++) {
         input = cstring[p];
