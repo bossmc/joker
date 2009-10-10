@@ -229,5 +229,6 @@ Wildcard_compile(cstring, len)  // {{{1
 
     transition = transition_table[state][6];
     do_transition(transition, '\0', &state, wildcard);
+    return wildcard;
 }
 

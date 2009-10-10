@@ -108,7 +108,6 @@ test_strcasechr(state)
 int
 main() {
     const UnitTest tests[] = {
-        // string_functions
         unit_test( test_strcasechr   ),
         unit_test( test_strnstr      ),
         unit_test( test_strncasestr  ),

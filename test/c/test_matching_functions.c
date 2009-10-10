@@ -489,7 +489,6 @@ teardown(state)
 int
 main() {
     const UnitTest tests[] = {
-        // string_functions
         unit_test_setup_teardown( test_match_Wild,           setup, teardown ),
         unit_test_setup_teardown( test_match_Wild_rev,       setup, teardown ),
         unit_test_setup_teardown( test_match_Fixed,          setup, teardown ),
