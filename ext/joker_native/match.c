@@ -2,8 +2,8 @@
 #include <stdio.h>
 #include <stddef.h>
 #include <string.h>
-#include <string.h>
 #include <ruby.h>
+#include <ctype.h>
 #include "match.h"
 #include "CArray.h"
 
@@ -43,22 +43,29 @@ static void right_inc(pointer, offset) // {{{1
     (*pointer) -= offset;
 }
 
-static char matches(type, data, input, eos)  // {{{1
+static int matches(type, data, input, eos, casefold)  // {{{1
     WildcardType type;
     const char   data;
     const char   input;
     bool         eos;
+    bool         casefold;
 {
     switch(type) {
         case Fixed:
         case Group:
-            return (char) !eos && input == data;
+            if (casefold) {
+                return !eos && tolower(input) == tolower(data);
+            } else {
+                return !eos && input == data;
+            }
         case Wild:
-            return (char) !eos && input != '\0';
+            return !eos && input != '\0';
         case Kleene:
             return 1;
         case EOW:
-            return (char) eos;
+            return eos;
+        default:
+            return 0;
     }
 }
 
@@ -80,7 +87,7 @@ static bool eos(match_data) // {{{1
 static void push(match_data) // {{{1
     MatchData * match_data;
 {
-    StateMachine sm;
+    StateMachine * sm;
     
     if (!eos(match_data)) {
         sm                  = match_data->active;
@@ -93,8 +100,9 @@ static void push(match_data) // {{{1
 static void pull(match_data) // {{{1
     MatchData * match_data;
 {
-    StateMachine sm = match_data->active;
+    StateMachine * sm;
 
+    sm = match_data->active;
     if (sm->pushed_input == NULL) {
         sm->state            = FAILURE_STATE;
     } else {
@@ -102,7 +110,7 @@ static void pull(match_data) // {{{1
         sm->wildcard         = sm->pushed_wildcard;
         sm->pushed_input     = NULL;
         sm->pushed_wildcard  = NULL;
-        (*sm->inc)(sm->input, 1); 
+        (*sm->inc)(&sm->input, 1); 
 
         if (sm == match_data->left) {
             match_data->active = match_data->right;
@@ -123,7 +131,7 @@ static void do_transition(transition, match_data)  // {{{1
     switch (transition) {
         case 0:
             push(match_data);
-            (*sm->inc)(sm->wildcard, 2);
+            (*sm->inc)(&sm->wildcard, 2);
             break;
         case 1:
             sm->state = 1;
@@ -142,43 +150,44 @@ static void do_transition(transition, match_data)  // {{{1
             break;
         case 6:
             sm->state = 0;
-            (*sm->inc)(sm->wildcard, 2);
-            (*sm->inc)(sm->input,    1);
+            (*sm->inc)(&sm->wildcard, 2);
+            (*sm->inc)(&sm->input,    1);
             break;
         case 7:
             sm->state = 0;
             pull(match_data);
             break;
         case 8:
-            (*sm->inc)(sm->wildcard, 2);
+            (*sm->inc)(&sm->wildcard, 2);
             break;
         case 9:
             sm->state = 3;
-            (*sm->inc)(sm->wildcard, 2);
-            (*sm->inc)(sm->input,    1);
+            (*sm->inc)(&sm->wildcard, 2);
+            (*sm->inc)(&sm->input,    1);
             break;
         case 10:
             sm->state = 0;
             break;
         case 11:
-            (*sm->inc)(sm->wildcard, 2);
+            (*sm->inc)(&sm->wildcard, 2);
             break;
         case 12:
             sm->state = 0;
-            (*sm->inc)(sm->wildcard, 2);
-            (*sm->inc)(sm->input,    1);
+            (*sm->inc)(&sm->wildcard, 2);
+            (*sm->inc)(&sm->input,    1);
             break;
     }
 }
 
 
-bool Wildcard_match(wildcard, cstring, len)  // {{{1
+bool Wildcard_match(wildcard, cstring, len, casefold)  // {{{1
     Wildcard *      wildcard;
     const char *    cstring;
     const long int  len;
+    bool casefold;
 {
     // the table that maps (match x state x type) -> transition
-    const char transition_table[2][4][7] = {
+    const char transition_table[2][5][5] = {
         // match
         {
         //   kleene, fixed, group, wild, EOW
@@ -200,11 +209,12 @@ bool Wildcard_match(wildcard, cstring, len)  // {{{1
         },
     };
 
-    MatchData     match_data;
+    MatchData *   match_data;
     WildcardType  type;
-    const char    data;
-    const char    input;
-    const char    match;
+    char          data;
+    char          input;
+    int           match;
+    char          transition;
 
     match_data                          = malloc(sizeof(MatchData));
     match_data->left                    = malloc(sizeof(MatchData));
@@ -234,8 +244,8 @@ bool Wildcard_match(wildcard, cstring, len)  // {{{1
 
         data       = *(match_data->active->wildcard + 1);
         input      = *match_data->active->input;
-        match      = matches(type, data, input, eos(match_data));
-        transition = transition_table[match][state][type];
+        match      = matches(type, data, input, eos(match_data), casefold);
+        transition = transition_table[match][(int)match_data->active->state][type];
         do_transition(transition, match_data);
 
         if (match_data->active->state == SUCCESS_STATE) {
@@ -244,9 +254,5 @@ bool Wildcard_match(wildcard, cstring, len)  // {{{1
             return 0;
         }
     }
-
-    transition = transition_table[state][6];
-    do_transition(transition, '\0', &state, wildcard);
-    return wildcard;
 }
 

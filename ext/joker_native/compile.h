@@ -10,8 +10,8 @@
  *
  */
 Wildcard * Wildcard_compile(
-        const char * cstring,   /* The string to parse                        */
-        const long int len);    /* The length of the string                   */
+        const char * cstring,   // The string to parse
+        const long int len);    // The length of the string
 
 
 #endif

@@ -6,8 +6,7 @@
 #include "match.h"
 
 
-void
-Init_joker(void)  // {{{1
+void Init_joker_native(void)  // {{{1
 {
     class_Wildcard = rb_define_class("Wildcard", rb_cObject);
     rb_define_singleton_method(class_Wildcard, "new", class_method_new, -2);
@@ -16,8 +15,7 @@ Init_joker(void)  // {{{1
 }
 
 
-VALUE
-instance_operator_match(self, string)  // {{{1
+VALUE instance_operator_match(self, string)  // {{{1
     VALUE  self;
     VALUE  string;
 {
@@ -38,8 +36,7 @@ instance_operator_match(self, string)  // {{{1
 }
 
 
-VALUE
-instance_operator_case(self, object)  // {{{1
+VALUE instance_operator_case(self, object)  // {{{1
     VALUE  self;
     VALUE  object;
 {

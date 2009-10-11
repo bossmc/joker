@@ -12,9 +12,9 @@
  */
 #define CArray_enlarge(array, type, old_size) CArray_enlarge_((void**)array, sizeof(type), old_size)
 void * CArray_enlarge_(
-    void **   array,        /* A pointer to the array   */
-    int       entry_size,   /* The size of one entry    */
-    long int  old_size      /* The old array size       */
+    void **   array,        // A pointer to the array
+    int       entry_size,   // The size of one entry
+    long int  old_size      // The old array size
 );
 
 

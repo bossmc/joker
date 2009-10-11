@@ -34,7 +34,7 @@ task :ctest_compile => [:compile] do
     sh 'cp test/c/* tmp/test'
     Dir.chdir('tmp/test')
     FileList['*.c'].each do |cfile|
-        sh "gcc -I. -I../../ext/joker -I/usr/lib/ruby/1.8/i686-linux/ -c #{cfile}"
+        sh "gcc -I. -I../../ext/joker -I/usr/lib/ruby/#{RUBY_VERSION}/i686-linux/ -c #{cfile}"
     end
     ofiles = FileList['../i686-linux/joker/1.8.7/*.o']
     FileList['*.o'].each do |ofile|
@@ -51,7 +51,7 @@ task :ctest => [:ctest_compile] do
 end
 
 require 'rake/extensiontask'
-Rake::ExtensionTask.new('joker', jeweler_tasks.gemspec) do |ext|
+Rake::ExtensionTask.new('joker_native', jeweler_tasks.gemspec) do |ext|
     ext.cross_compile = true
     ext.cross_platform = 'i386-mswin32'
 end

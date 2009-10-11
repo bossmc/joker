@@ -2,6 +2,8 @@
 # Joker is a simple Wildcard implementation that works much like Regexps.
 #
 
+require 'joker_native'
+
 #
 # Implements wildcards for Ruby. Modeled after the Regexp class.
 #

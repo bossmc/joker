@@ -27,11 +27,10 @@ test_empty(state)
     const char *  cstring;
 
     cstring  = "";
-    printf("gggggggggggggggggg\n");
     wildcard = Wildcard_compile(cstring, strlen(cstring));
-    printf("gggggggggggggggggg\n");
     assert_int_equal(0,          wildcard->length);
-    assert_int_equal((int)NULL, (int)wildcard->parts);
+    assert_int_equal((int)NULL, (int)wildcard->first);
+    assert_int_equal((int)NULL, (int)wildcard->last);
 }
 
 
