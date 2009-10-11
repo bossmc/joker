@@ -5,7 +5,6 @@
 #include <ruby.h>
 #include <ctype.h>
 #include "match.h"
-#include "CArray.h"
 
 #define SUCCESS_STATE 42
 #define FAILURE_STATE 23

@@ -5,7 +5,6 @@
 #include <string.h>
 #include <ruby.h>
 #include "compile.h"
-#include "CArray.h"
 
 
 static int hash(cchar)  // {{{1
