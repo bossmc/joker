@@ -9,7 +9,7 @@
 void Init_joker_native(void)  // {{{1
 {
     class_Wildcard = rb_define_class("Wildcard", rb_cObject);
-    rb_define_singleton_method(class_Wildcard, "new", class_method_new, -2);
+    rb_define_singleton_method(class_Wildcard, "new", class_method_new, -1);
     rb_define_method(class_Wildcard, "=~",  instance_operator_match, 1);
     rb_define_method(class_Wildcard, "===", instance_operator_case, 1);
 }
@@ -58,8 +58,7 @@ VALUE instance_operator_case(self, object)  // {{{1
 }
 
 
-VALUE
-class_method_new(argc, argv, klass)  // {{{1
+VALUE class_method_new(argc, argv, klass)  // {{{1
     int      argc;
     VALUE *  argv;
     VALUE    klass;
@@ -81,7 +80,9 @@ class_method_new(argc, argv, klass)  // {{{1
     new_object       = Data_Wrap_Struct(klass, NULL, Wildcard_free, new_wildcard); 
 
     rb_iv_set(new_object, "@casefold", casefold);
+    rb_iv_set(new_object, "@source",   wildcard_string);
 
     return new_object;
 }
+
 

@@ -25,7 +25,6 @@ typedef struct {
 } Wildcard;
 
 
-void Wildcard_init(Wildcard * wildcard);
 void Wildcard_free(Wildcard * wildcard);
 
 

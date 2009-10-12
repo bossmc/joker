@@ -28,9 +28,10 @@ test_empty(state)
 
     cstring  = "";
     wildcard = Wildcard_compile(cstring, strlen(cstring));
-    assert_int_equal(0,          wildcard->length);
-    assert_int_equal((int)NULL, (int)wildcard->first);
-    assert_int_equal((int)NULL, (int)wildcard->last);
+    assert_int_not_equal( (int)NULL, (int)wildcard        );
+    assert_int_equal(     (int)NULL, (int)wildcard->first );
+    assert_int_equal(     (int)NULL, (int)wildcard->last  );
+    assert_int_equal(     0,         wildcard->length     );
 }
 
 

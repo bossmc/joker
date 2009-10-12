@@ -33,8 +33,8 @@ static void push(type, cchar, wildcard)  // {{{1
     Wildcard *          wildcard;
 {
     Wildcard_enlarge(wildcard);
-    *(wildcard->last - 1) = (char) type;
-    *wildcard->last       = cchar;
+    *wildcard->last        = (char) type;
+    *(wildcard->last + 1)  = cchar;
 }
 
 
@@ -131,7 +131,9 @@ Wildcard * Wildcard_compile(cstring, len)  // {{{1
     char       transition;
 
     wildcard = malloc(sizeof(Wildcard));
-    Wildcard_init(wildcard);
+    wildcard->length = 0;
+    wildcard->first  = NULL;
+    wildcard->last   = NULL;
 
     for (p = 0; p < len; p++) {
         input = cstring[p];

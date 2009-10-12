@@ -9,9 +9,15 @@ for Ruby.
 
 *   Behaves much like Regexp
 *   ` * ` and ` ? ` as wildcard characters
-*   ` \ ` for escaping
-*   `\a` matches `\a`, but not `a`
+*   ` \ ` for escaping:
+    ` \? ` matches ` ? `,
+    ` \* ` matches ` * `,
+    ` \[ ` matches ` [ `,
+    ` \] ` matches ` ] `,
+*   But for all other characters:
+    ` \a ` matches ` \a `, but not ` a `
 *   Wildcards must always match whole string
+    (thus ` uiae ` will only match the string ` uiae `)
 *   Wildcards can be case insensitive
 
 ## Installation ##
