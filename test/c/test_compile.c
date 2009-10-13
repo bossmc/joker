@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "compile.h"
+#include "Wildcard.h"
 
 //
 // Possible scenarios:
@@ -32,6 +33,8 @@ test_empty(state)
     assert_int_equal(     (int)NULL, (int)wildcard->first );
     assert_int_equal(     (int)NULL, (int)wildcard->last  );
     assert_int_equal(     0,         wildcard->length     );
+
+    Wildcard_free(wildcard);
 }
 
 
