@@ -2,7 +2,7 @@
 #include <stddef.h>
 #include <stdbool.h>
 #include <setjmp.h>
-#include <google/cmockery.h>
+#include <cmockery.h>
 #include <stdio.h>
 #include <string.h>
 #include "compile.h"
