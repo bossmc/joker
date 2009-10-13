@@ -39,14 +39,36 @@ test_empty(state)
 
 
 static void
-test_group(state)
+test_fixed(state)
     void ** state;
 {
+    Wildcard *    wildcard;
+    const char *  cstring;
+    int           i;
+
+    cstring  = "uiae";
+    wildcard = Wildcard_compile(cstring, strlen(cstring));
+    assert_int_not_equal( (int)NULL, (int)wildcard        );
+    assert_int_not_equal( (int)NULL, (int)wildcard->first );
+    assert_int_not_equal( (int)NULL, (int)wildcard->last  );
+    assert_int_equal(     8,         wildcard->length     );
+
+    const char expected[8] = {
+        Fixed, 'u',
+        Fixed, 'i',
+        Fixed, 'a',
+        Fixed, 'e',
+    };
+    for (i = 0; i < 8; i += 2) {
+        assert_int_equal((int)expected[i], (int)*(wildcard->first + i));
+    }
+
+    Wildcard_free(wildcard);
 }
 
 
 static void
-test_fixed(state)
+test_group(state)
     void ** state;
 {
 }
@@ -84,8 +106,8 @@ int
 main() {
     const UnitTest tests[] = {
         unit_test(test_empty),
-        unit_test(test_group),
         unit_test(test_fixed),
+        unit_test(test_group),
         unit_test(test_wildcard),
         unit_test(test_kleene),
         unit_test(test_double_kleene),
