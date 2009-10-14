@@ -260,8 +260,14 @@ bool Wildcard_match(wildcard, cstring, len, casefold)  // {{{1
         do_transition(transition, match_data);
 
         if (match_data->active->state == SUCCESS_STATE) {
+            free(match_data->right);
+            free(match_data->left);
+            free(match_data);
             return true;
         } else if (match_data->active->state == FAILURE_STATE) {
+            free(match_data->right);
+            free(match_data->left);
+            free(match_data);
             return false;
         }
     }
