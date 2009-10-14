@@ -140,13 +140,17 @@ Wildcard * Wildcard_compile(cstring, len)  // {{{1
     wildcard->first  = NULL;
     wildcard->last   = NULL;
 
+    // for each char:
     for (p = 0; p < len; p++) {
+        // get the input, it's type and what transition to make
         input = cstring[p];
         hashed = hash(input);
         transition = transition_table[state][hashed];
+        // and execute the transition
         do_transition(transition, input, &state, wildcard);
     }
 
+    // finally: execute the finishing transition
     transition = transition_table[state][6];
     do_transition(transition, '\0', &state, wildcard);
     return wildcard;

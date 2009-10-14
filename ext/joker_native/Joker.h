@@ -27,8 +27,9 @@ VALUE class_method_new(int argc, VALUE * argv, VALUE klass);
 
 /*
  * call-seq:
- *   wildcard =~ 'string' -> true or false
- *   'string' =~ wildcard -> true or false
+ *   wildcard =~  'string' -> true or false
+ *   'string' =~  wildcard -> true or false
+ *   wildcard === 'string' -> true or false
  *
  * Matches the Wildcard against the given string.
  *
@@ -36,19 +37,8 @@ VALUE class_method_new(int argc, VALUE * argv, VALUE klass);
  * this method only returns true or false, not the position
  * of the match.
  *
- *   Wildcard['*fairy*'] =~ 'I love fairycake'   #=> true
- *   'I love fairycake' =~ Wildcard['*dairy*']   #=> false
- *
- */
-VALUE instance_operator_match(VALUE self, VALUE string);
-
-
-/*
- * call-seq:
- *   wildcard === 'string' -> true or false
- *
- * The case operator. Allows you to use Wildcards in case
- * expressions:
+ *   Wildcard['*fairy*'] =~  'I love fairycake'    #=> true
+ *   'I love fairycake'  =~  Wildcard['*dairy*']   #=> false
  *
  *   case 'I love fairycake'
  *   when Wildcard['*fairy*'] then puts 'fairy!'
@@ -56,7 +46,7 @@ VALUE instance_operator_match(VALUE self, VALUE string);
  *   end
  *
  */
-VALUE instance_operator_case(VALUE self, VALUE object);
+VALUE instance_operator_match(VALUE self, VALUE string);
 
 
 #endif

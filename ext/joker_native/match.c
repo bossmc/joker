@@ -238,6 +238,7 @@ bool Wildcard_match(wildcard, cstring, len, casefold)  // {{{1
     match_data->right->inc              = right_inc;
 
     while (true) {
+        // get the data and it's type
         if (eow(match_data)) {
             type   = EOW;
             data   = '\0';
@@ -246,19 +247,15 @@ bool Wildcard_match(wildcard, cstring, len, casefold)  // {{{1
             data   = *(match_data->active->wildcard + 1);
         }
 
-        //printf("type: %i\n", type);
-        //printf("data: %i\n", data);
+        // get input, whether it matches the data and the transition to make
         input      = *match_data->active->input;
-        //printf("input: %i\n", input);
         match      = matches(type, data, input, eos(match_data), casefold);
-        //printf("match: %i\n", match);
-        //printf("match_data: %i\n", (int)match_data);
-        //printf("active: %i\n", (int)match_data->active);
-        //printf("state: %i\n", match_data->active->state);
         transition = transition_table[match][(int)match_data->active->state][type];
-        //printf("transition: %i\n", transition);
+        // and execute the tansition
         do_transition(transition, match_data);
 
+        // if the transition resulted in failure or success:
+        // clean up and terminate
         if (match_data->active->state == SUCCESS_STATE) {
             free(match_data->right);
             free(match_data->left);
