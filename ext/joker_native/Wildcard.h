@@ -7,11 +7,11 @@
  *
  */
 typedef enum {
+    Kleene  = 0,
     Fixed   = 1,
     Group   = 2,
-    Wild    = 4,
-    Kleene  = 8,
-    EOW     = 16,   // only used in matching
+    Wild    = 3,
+    EOW     = 4,   // only used in matching
 } WildcardType;
 
 /*

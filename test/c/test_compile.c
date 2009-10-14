@@ -138,7 +138,7 @@ static void
 test_escaping(state)
     void ** state;
 {
-    //ruby_init(); // since we will be calling rb_warning
+    ruby_init(); // since we will be calling rb_warning
 
     // escaping in fixed parts
     {
