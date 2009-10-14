@@ -55,6 +55,12 @@ static void
 test_fixed(state)
     void ** state;
 {
+    generic_test("uiae", "uiae",  false, true);
+    generic_test("uiae", "UIAE",  true,  true);
+    generic_test("uiae", "UIAE",  false, false); // bad case
+    generic_test("uiae", "",      false, false); // empty
+    generic_test("uiae", "u",     false, false); // too short
+    generic_test("uiae", "uiaeo", false, false); // too long
 }
 
 
@@ -62,6 +68,12 @@ static void
 test_group(state)
     void ** state;
 {
+    generic_test("[uiae]", "u",  false, true);
+    generic_test("[uiae]", "U",  true,  true);
+    generic_test("[uiae]", "U",  false, false); // bad case
+    generic_test("[uiae]", "",   false, false); // empty
+    generic_test("[uiae]", "o",  false, false); // wrong character
+    generic_test("[uiae]", "ui", false, false); // too long
 }
 
 

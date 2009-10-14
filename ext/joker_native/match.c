@@ -205,7 +205,7 @@ bool Wildcard_match(wildcard, cstring, len, casefold)  // {{{1
         //   kleene, fixed, group, wild, EOW
             {     0,     1,     2,    3,   5}, // basic
             {     6,     6,     6,    6,   6}, // fixed
-            {     9,     9,     9,    9,   9}, // group
+            {     7,     7,     9,    7,   7}, // group
             {    10,    10,    11,   10,  10}, // group_finish
             {    12,    12,    12,   12,  12}, // wild
         },
