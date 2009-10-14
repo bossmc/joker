@@ -19,8 +19,8 @@ typedef enum {
  *
  */
 typedef struct {
-    char *   first;     // The first Wildcard part
-    char *   last;      // The last Wildcard part
+    char *   first;     // The first Wildcard part (points to the first of the 2 chars)
+    char *   last;      // The last Wildcard part (points to the first of the 2 chars)
     long int length;    // How many chars there are (not parts!)
 } Wildcard;
 

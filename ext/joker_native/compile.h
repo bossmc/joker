@@ -9,9 +9,7 @@
  * represenation.
  *
  */
-Wildcard * Wildcard_compile(
-        const char * cstring,   // The string to parse
-        const long int len);    // The length of the string
+Wildcard * Wildcard_compile(const char * cstring, const long int len);
 
 
 #endif
