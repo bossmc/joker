@@ -5,6 +5,7 @@
 #include <cmockery.h>
 #include <stdio.h>
 #include <string.h>
+#include <ruby.h>
 #include "compile.h"
 #include "Wildcard.h"
 
@@ -128,6 +129,80 @@ test_mixed(state)
 }
 
 
+static void
+test_escaping(state)
+    void ** state;
+{
+    ruby_init(); // since we will be calling rb_warning
+
+    // escaping in fixed parts
+    {
+        char expected[4] = {
+            Fixed,  '?',
+            Fixed,  'a',
+        };
+
+        // escaping of escapable characters
+        generic_test("\\?", 2, expected);
+
+        expected[1] = '*';
+        generic_test("\\*", 2, expected);
+
+        expected[1] = '[';
+        generic_test("\\[", 2, expected);
+
+        expected[1] = ']';
+        generic_test("\\]", 2, expected);
+
+        expected[1] = '\\';
+        generic_test("\\\\", 2, expected);
+
+        // special warning-generating escaping mechanism
+        expected[1] = ']';
+        generic_test("]", 2, expected);
+
+        // escaping of non-escapable characters
+        expected[1] = '\\';
+        generic_test("\\a", 4, expected);
+    }
+    // escaping in group parts
+    {
+        char expected[4] = {
+            Group,  '[',
+            Group,  'a',
+        };
+
+        // escaping of escapable characters
+        generic_test("[\\[]", 2, expected);
+
+        expected[1] = ']';
+        generic_test("[\\]]", 2, expected);
+
+        expected[1] = '\\';
+        generic_test("[\\\\]", 2, expected);
+
+        // special warning-generating escaping mechanism
+        expected[1] = '[';
+        generic_test("[[]", 2, expected);
+
+        // escaping of non-escapable characters
+        expected[1] = '\\';
+        generic_test("[\\a]", 4, expected);
+
+        expected[3] = '?';
+        generic_test("[\\?]", 4, expected);
+    }
+    // escaping at EOS
+    {
+        char expected[4] = {
+            Fixed,  '\\',
+        };
+
+        generic_test("\\", 2, expected);
+    }
+}
+
+
 int
 main() {
     const UnitTest tests[] = {
@@ -137,6 +212,7 @@ main() {
         unit_test(test_wild),
         unit_test(test_kleene),
         unit_test(test_mixed),
+        unit_test(test_escaping),
     };
     return run_tests(tests);
 }

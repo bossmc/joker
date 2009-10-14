@@ -53,7 +53,7 @@ static void do_transition(transition, input, state, wildcard)  // {{{1
             break;
         case 2:
             push(Fixed, input, wildcard);
-            rb_warn("wildcard has `]' without escape");
+            rb_warning("wildcard has `]' without escape");
             break;
         case 3:
             // refactor ** --> *
@@ -88,7 +88,7 @@ static void do_transition(transition, input, state, wildcard)  // {{{1
             break;
         case 11:
             push(Group, input, wildcard);
-            rb_warn("character class has `[' without escape");
+            rb_warning("character class has `[' without escape");
             break;
         case 12:
             *state = 0;
@@ -109,6 +109,8 @@ static void do_transition(transition, input, state, wildcard)  // {{{1
             push(Group, '\\', wildcard);
             push(Group, input, wildcard);
             break;
+        default:
+            rb_fatal("Wildcard compilation state machine failure. This is a bug in Joker!");
     }
 }
 

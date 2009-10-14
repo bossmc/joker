@@ -64,6 +64,7 @@ static int matches(type, data, input, eos, casefold)  // {{{1
         case EOW:
             return eos;
         default:
+            rb_raise(rb_eSyntaxError, "corrupted wildcard");
             return 0;
     }
 }
@@ -175,6 +176,8 @@ static void do_transition(transition, match_data)  // {{{1
             (*sm->inc)(&sm->wildcard, 2);
             (*sm->inc)(&sm->input,    1);
             break;
+        default:
+            rb_fatal("Wildcard matching state machine failure. This is a bug in Joker!");
     }
 }
 
