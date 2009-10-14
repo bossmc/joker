@@ -73,7 +73,7 @@ static int matches(type, data, input, eos, casefold)  // {{{1
 static bool eow(match_data) // {{{1
     MatchData * match_data;
 {
-    return match_data->left->wildcard > match_data->right->wildcard;
+    return match_data->left->wildcard == NULL || match_data->left->wildcard > match_data->right->wildcard;
 }
 
 

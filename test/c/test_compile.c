@@ -18,6 +18,9 @@
 //      contains wildcard
 //      contains kleene
 // *    contains "**"
+// *    contains escape at EOS
+//      contains escape at Fixed
+//      contains escape at Group
 //
 
 
@@ -56,6 +59,8 @@ test_empty(state)
     assert_int_equal(     (int)NULL, (int)wildcard->first );
     assert_int_equal(     (int)NULL, (int)wildcard->last  );
     assert_int_equal(     0,         wildcard->length     );
+
+    Wildcard_free(wildcard);
 }
 
 
@@ -133,7 +138,7 @@ static void
 test_escaping(state)
     void ** state;
 {
-    ruby_init(); // since we will be calling rb_warning
+    //ruby_init(); // since we will be calling rb_warning
 
     // escaping in fixed parts
     {

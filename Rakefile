@@ -37,7 +37,7 @@ Rake::ExtensionTask.new('joker_native', jeweler_tasks.gemspec) do |ext|
 end
 
 
-CLEAN.include 'tmp/test'
+CLEAN.include 'lib/*.so'
 
 desc('Test the ruby part of Joker')
 task :test do
