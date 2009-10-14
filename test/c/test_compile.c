@@ -24,8 +24,7 @@
 //
 
 
-static void
-generic_test(cstring, length, expected)
+static void generic_test(cstring, length, expected) // {{{1
     const char *  cstring;
     const int     length;
     const char *  expected;
@@ -47,8 +46,7 @@ generic_test(cstring, length, expected)
 }
 
 
-static void
-test_empty(state)
+static void test_empty(state) // {{{1
     void ** state;
 {
     Wildcard *    wildcard;
@@ -64,8 +62,7 @@ test_empty(state)
 }
 
 
-static void
-test_fixed(state)
+static void test_fixed(state) // {{{1
     void ** state;
 {
     const char expected[8] = {
@@ -79,8 +76,7 @@ test_fixed(state)
 }
 
 
-static void
-test_group(state)
+static void test_group(state) // {{{1
     void ** state;
 {
     const char expected[4] = {
@@ -92,8 +88,7 @@ test_group(state)
 }
 
 
-static void
-test_wild(state)
+static void test_wild(state) // {{{1
     void ** state;
 {
     const char expected[2] = {
@@ -104,8 +99,7 @@ test_wild(state)
 }
 
 
-static void
-test_kleene(state)
+static void test_kleene(state) // {{{1
     void ** state;
 {
     const char expected[2] = {
@@ -118,8 +112,7 @@ test_kleene(state)
 }
 
 
-static void
-test_mixed(state)
+static void test_mixed(state) // {{{1
     void ** state;
 {
     const char expected[10] = {
@@ -134,8 +127,7 @@ test_mixed(state)
 }
 
 
-static void
-test_escaping(state)
+static void test_escaping(state) // {{{1
     void ** state;
 {
     ruby_init(); // since we will be calling rb_warning
@@ -208,8 +200,7 @@ test_escaping(state)
 }
 
 
-int
-main() {
+int main() { // {{{1
     const UnitTest tests[] = {
         unit_test(test_empty),
         unit_test(test_fixed),

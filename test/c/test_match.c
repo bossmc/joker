@@ -22,8 +22,7 @@
 //
 
 
-static void
-generic_test(wildcard_string, cstring, casefold, should_match)
+static void generic_test(wildcard_string, cstring, casefold, should_match) // {{{1
     const char *  wildcard_string;
     const char *  cstring;
     bool          casefold;
@@ -40,8 +39,7 @@ generic_test(wildcard_string, cstring, casefold, should_match)
 }
 
 
-static void
-test_empty(state)
+static void test_empty(state) // {{{1
     void ** state;
 {
     generic_test("", "",  false, true);
@@ -51,8 +49,7 @@ test_empty(state)
 }
 
 
-static void
-test_fixed(state)
+static void test_fixed(state) // {{{1
     void ** state;
 {
     generic_test("uiae", "uiae",  false, true);
@@ -64,8 +61,7 @@ test_fixed(state)
 }
 
 
-static void
-test_group(state)
+static void test_group(state) // {{{1
     void ** state;
 {
     generic_test("[uiae]", "u",  false, true);
@@ -77,8 +73,7 @@ test_group(state)
 }
 
 
-static void
-test_wild(state)
+static void test_wild(state) // {{{1
     void ** state;
 {
     generic_test("?",  "u",  false, true);
@@ -90,8 +85,7 @@ test_wild(state)
 }
 
 
-static void
-test_kleene(state)
+static void test_kleene(state) // {{{1
     void ** state;
 {
     generic_test("*",   "uiae",  false, true);
@@ -102,14 +96,35 @@ test_kleene(state)
 }
 
 
-int
-main() {
+static void test_mixed(state) //{{{1
+    void ** state;
+{
+    generic_test("_*_",   "__",      false, true);
+    generic_test("_*_",   "_uiae_",  false, true);
+    generic_test("_*_",   "_uiae_",  false, true);
+    generic_test("_*_",   "u_ia_e",  false, false);
+    generic_test("_*_",   "uiae_",   false, false);
+    generic_test("_*_",   "_uiae",   false, false);
+    generic_test("_*_",   "",        false, false);
+
+    generic_test("*_*",   "_",       false, true);
+    generic_test("*_*",   "uiae_",   false, true);
+    generic_test("*_*",   "_uiae",   false, true);
+    generic_test("*_*",   "ui_ae",   false, true);
+    generic_test("*_*",   "_____",   false, true);
+    generic_test("*_*",   "uiae",    false, false);
+    generic_test("*_*",   "",        false, false);
+}
+
+
+int main() { // {{{1
     const UnitTest tests[] = {
         unit_test(test_empty),
         unit_test(test_fixed),
         unit_test(test_group),
         unit_test(test_wild),
         unit_test(test_kleene),
+        unit_test(test_mixed),
     };
     return run_tests(tests);
 }
