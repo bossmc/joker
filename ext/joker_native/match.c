@@ -190,16 +190,6 @@ bool Wildcard_match(wildcard, cstring, len, casefold)  // {{{1
 {
     // the table that maps (match x state x type) -> transition
     const char transition_table[2][5][5] = {
-        // match
-        {
-        //   kleene, fixed, group, wild, EOW
-            {     0,     1,     2,    3,   5}, // basic
-            {     6,     6,     6,    6,   6}, // fixed
-            {     9,     9,     9,    9,   9}, // group
-            {    10,    10,    11,   10,  10}, // group_finish
-            {    12,    12,    12,   12,  12}, // wild
-        },
-
         // fail
         {
         //   kleene, fixed, group, wild, EOW
@@ -208,6 +198,16 @@ bool Wildcard_match(wildcard, cstring, len, casefold)  // {{{1
             {     7,     7,     8,    7,   7}, // group
             {    10,    10,    11,   10,  10}, // group_finish
             {     7,     7,     7,    7,   7}, // wild
+        },
+
+        // match
+        {
+        //   kleene, fixed, group, wild, EOW
+            {     0,     1,     2,    3,   5}, // basic
+            {     6,     6,     6,    6,   6}, // fixed
+            {     9,     9,     9,    9,   9}, // group
+            {    10,    10,    11,   10,  10}, // group_finish
+            {    12,    12,    12,   12,  12}, // wild
         },
     };
 
@@ -230,7 +230,7 @@ bool Wildcard_match(wildcard, cstring, len, casefold)  // {{{1
     match_data->left->state             = 0;
     match_data->left->inc               = left_inc;
 
-    match_data->right->input            = cstring;
+    match_data->right->input            = cstring + len - 1;
     match_data->right->wildcard         = wildcard->last;
     match_data->right->pushed_input     = NULL;
     match_data->right->pushed_wildcard  = NULL;
