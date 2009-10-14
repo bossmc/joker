@@ -81,6 +81,12 @@ static void
 test_wild(state)
     void ** state;
 {
+    generic_test("?", "u",  false, true);
+    generic_test("?", "U",  true,  true);
+    generic_test("?", "",   false, false); // empty
+    generic_test("?", "ui", false, false); // too long
+    generic_test("u?", "u", false, false); // too short
+    generic_test("??", "u", false, false); // too short
 }
 
 
