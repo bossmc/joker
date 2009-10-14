@@ -56,10 +56,13 @@ static void do_transition(transition, input, state, wildcard)  // {{{1
             rb_warn("wildcard has `]' without escape");
             break;
         case 3:
-            push(Kleene, wildcard);
+            // refactor ** --> *
+            if (wildcard->last == NULL || *wildcard->last != (char) Kleene) {
+                push(Kleene, '*', wildcard);
+            }
             break;
         case 4:
-            push(Wild, wildcard);
+            push(Wild, '?', wildcard);
             break;
         case 5:
             push(Fixed, input, wildcard);
