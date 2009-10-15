@@ -11,7 +11,7 @@ jeweler_tasks = Jeweler::Tasks.new do |gem|
     gem.summary             = 'Joker is a simple wildcard implementation that works much like Regexps'
     gem.description         = gem.summary
     gem.email               = 'karottenreibe@gmail.com'
-    gem.homepage            = 'http://github.com/karottenreibe/joker'
+    gem.homepage            = 'http://karottenreibe.github.com/joker'
     gem.authors             = ['Fabian Streitel']
     gem.rubyforge_project   = 'k-gems'
 
