@@ -14,6 +14,13 @@ a {
   a:visited {
     font-weight: none; }
 
+#poweredby {
+  color: #DD1144;
+  font-weight: bold;
+  position: absolute;
+  top: 5px;
+  left: 5px; }
+
 #forkme {
   position: absolute;
   top: 0px;
