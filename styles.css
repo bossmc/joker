@@ -17,9 +17,10 @@ a {
 #poweredby {
   color: #DD1144;
   font-weight: bold;
-  position: absolute;
-  top: 5px;
-  left: 5px; }
+  font-size: 1.2em;
+  position: fixed;
+  top: 10px;
+  left: 10px; }
 
 #forkme {
   position: absolute;
