@@ -1,5 +1,7 @@
 require 'jeweler'
 
+task :build => :gemspec
+
 Jeweler::Tasks.new do |gem|
     gem.name = 'joker'
     gem.summary = gem.description =
