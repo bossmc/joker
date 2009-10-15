@@ -5,6 +5,8 @@ task :release do
     sh "git commit -a -m 'prerelease adjustments'; true"
 end
 
+task :build => :gemspec
+
 require 'jeweler'
 jeweler_tasks = Jeweler::Tasks.new do |gem|
     gem.name                = 'joker'
