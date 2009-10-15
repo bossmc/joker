@@ -14,9 +14,12 @@ jeweler_tasks = Jeweler::Tasks.new do |gem|
     gem.homepage            = 'http://github.com/karottenreibe/joker'
     gem.authors             = ['Fabian Streitel']
     gem.rubyforge_project   = 'k-gems'
+
+    gem.files.include('lib/joker_native.*') # add native stuff
 end
 
 Jeweler::RubyforgeTasks.new
+Jeweler::GemcutterTasks.new
 
 
 require 'rake/rdoctask'
@@ -34,6 +37,21 @@ Rake::ExtensionTask.new('joker_native', jeweler_tasks.gemspec) do |ext|
     ext.cross_compile   = true
     ext.cross_platform  = 'i386-mswin32'
     ext.test_files      = FileList['test/c/*']
+end
+
+
+# workaround for rake-compiler which needs the gemspec to have a
+# version and yaml-dump-loads the
+# gemspec which leads to errors since procs can't be loaded
+Rake::Task.tasks.each do |task|
+    if task.to_s.start_with?('native')
+        task.prerequisites.unshift(:gemspec, :fix_rake_compiler_gemspec_dump)
+    end
+end
+task :fix_rake_compiler_gemspec_dump do
+    %w{files extra_rdoc_files test_files}.each do |accessor|
+        jeweler_tasks.gemspec.send(accessor).instance_eval { @exclude_procs = Array.new }
+    end
 end
 
 
