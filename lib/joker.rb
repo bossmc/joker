@@ -2,7 +2,7 @@
 # Joker is a simple Wildcard implementation that works much like Regexps.
 #
 
-require 'joker/joker_native'
+require File.join( File.dirname( File.expand_path(__FILE__)), 'joker', 'joker_native')
 
 #
 # Implements wildcards for Ruby. Modeled after the Regexp class.
