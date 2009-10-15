@@ -22,7 +22,6 @@ for Ruby.
 
 ## Installation ##
 
-    gem install karottenreibe-joker --source http://gems.github.com
     gem install joker
 
 ## Usage ##
