@@ -6,7 +6,6 @@ Rake::ExtensionTask.new('joker_native', $gemspec) do |ext|
     ext.cross_compile   = true
     ext.cross_platform  = 'x86-mswin32'
     ext.test_files      = FileList['test/c/*']
-    ext.lib_dir         = 'lib/joker'
 end
 
 CLEAN.include 'lib/**/*.so'
