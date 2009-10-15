@@ -1,12 +1,9 @@
-<?xml version="1.0" encoding="iso-8859-1"?>
-<!DOCTYPE html 
-     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-  <title>Class: Wildcard</title>
-  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <title>Class: Wildcard [Joker]</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta http-equiv="Content-Script-Type" content="text/javascript" />
   <link rel="stylesheet" href=".././rdoc-style.css" type="text/css" media="screen" />
   <script type="text/javascript">
@@ -25,7 +22,7 @@
       return false;
 
     elemStyle = elem.style;
-    
+
     if ( elemStyle.display != "block" ) {
       elemStyle.display = "block"
     } else {
@@ -34,16 +31,15 @@
 
     return true;
   }
-  
+
   // Make codeblocks hidden by default
-  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
-  
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }<\/style>" )
+
   // ]]>
   </script>
 
 </head>
 <body>
-
 
 
     <div id="classHeader">
@@ -55,140 +51,130 @@
         <tr class="top-aligned-row">
             <td><strong>In:</strong></td>
             <td>
+
+
                 <a href="../files/lib/joker_rb.html">
+
                 lib/joker.rb
+
                 </a>
+
+
         <br />
+
+
+                <a href="../files/ext/joker_native/Joker_c.html">
+
+                ext/joker_native/Joker.c
+
+                </a>
+
+
+        <br />
+
             </td>
         </tr>
+
 
         <tr class="top-aligned-row">
             <td><strong>Parent:</strong></td>
             <td>
+
                 Object
+
             </td>
         </tr>
+
         </table>
     </div>
   <!-- banner header -->
 
   <div id="bodyContent">
 
-
-
   <div id="contextContent">
 
     <div id="description">
       <p>
-Implements wildcards for Ruby. Modeled after the Regexp class.
+include <malloc.h> include &#8220;Joker.h&#8220; include
+&#8220;Wildcard.h&#8220; include &#8220;compile.h&#8220; include
+&#8220;match.h&#8220;
 </p>
 <p>
-This implementation supports the following special characters:
-</p>
-<ul>
-<li>&#8217;?&#8217; matches a single character
-
-</li>
-<li>&#8217;*&#8217; matches any number of characters, including 0
-
-</li>
-<li>&#8217;\*&#8217; matches a literal &#8217;*&#8217;
-
-</li>
-<li>&#8217;\?&#8217; matches a literal &#8217;?&#8217;
-
-</li>
-<li>&#8217;\\&#8217; matches a literal &#8217;\&#8217;
-
-</li>
-</ul>
-<p>
-NOTE that &#8217;\a&#8217; will match the literal string &#8217;\a&#8217;,
-not &#8216;a&#8217; as one might expect.
+void Init_joker_native(void) // {{{1 {
 </p>
 <pre>
-  wild = Wildcard['Fairy?ake*']
-  wild =~ 'Fairycake'                     #=&gt; true
-  wild =~ 'Fairyfakes are mean'           #=&gt; true
-  wild =~ 'Fairysteakes are delicious'    #=&gt; false
+    class_Wildcard = rb_define_class(&quot;Wildcard&quot;, rb_cObject);
+    rb_define_singleton_method(class_Wildcard, &quot;new&quot;, class_method_new, -1);
+    rb_define_method(class_Wildcard, &quot;=~&quot;,  instance_operator_match, 1);
+    rb_define_method(class_Wildcard, &quot;===&quot;, instance_operator_match, 1);
 </pre>
 <p>
-Also there is a case sensitivity flag. By default it is set to true, but it
-can be turned off at construction time:
+}
 </p>
-<pre>
-  wild = Wildcard['Fairy?ake*', true]
-  wild =~ 'Fairycake'
-  wild =~ 'fairyCAKE'
-  wild =~ 'FaIrYfAkEs, the Movie'
-</pre>
-<p>
-Furthermore, any given <a href="Wildcard.html">Wildcard</a> expression must
-match the whole string:
-</p>
-<pre>
-  wild = Wildcard['Fairy?ake']
-  wild =~ 'some Fairycake'                #=&gt; false
-  wild =~ 'Fairycake is good for you'     #=&gt; false
-</pre>
 
     </div>
 
-
    </div>
+
 
     <div id="method-list">
       <h3 class="section-bar">Methods</h3>
 
       <div class="name-list">
-      <a href="#M000008">==</a>&nbsp;&nbsp;
-      <a href="#M000006">===</a>&nbsp;&nbsp;
-      <a href="#M000005">=~</a>&nbsp;&nbsp;
-      <a href="#M000007">eql?</a>&nbsp;&nbsp;
-      <a href="#M000003">inspect</a>&nbsp;&nbsp;
-      <a href="#M000001">new</a>&nbsp;&nbsp;
-      <a href="#M000002">quote</a>&nbsp;&nbsp;
-      <a href="#M000004">~</a>&nbsp;&nbsp;
+
+        <a href="#M000006">==</a>&nbsp;&nbsp;
+
+        <a href="#M000011">===</a>&nbsp;&nbsp;
+
+        <a href="#M000010">=~</a>&nbsp;&nbsp;
+
+        <a href="#M000008">[]</a>&nbsp;&nbsp;
+
+        <a href="#M000009">compile</a>&nbsp;&nbsp;
+
+        <a href="#M000005">eql?</a>&nbsp;&nbsp;
+
+        <a href="#M000003">inspect</a>&nbsp;&nbsp;
+
+        <a href="#M000007">new</a>&nbsp;&nbsp;
+
+        <a href="#M000001">new</a>&nbsp;&nbsp;
+
+        <a href="#M000002">quote</a>&nbsp;&nbsp;
+
+        <a href="#M000004">~</a>&nbsp;&nbsp;
+
       </div>
     </div>
 
   </div>
 
-
     <!-- if includes -->
 
     <div id="section">
-
-
 
     <div id="aliases-list">
       <h3 class="section-bar">External Aliases</h3>
 
       <div class="name-list">
-                        <table summary="aliases">
-        <tr class="top-aligned-row context-row">
-          <td class="context-item-name">new</td>
-          <td>-&gt;</td>
-          <td class="context-item-value">[]</td>
-        </tr>
-        <tr class="top-aligned-row context-row">
-          <td class="context-item-name">new</td>
-          <td>-&gt;</td>
-          <td class="context-item-value">compile</td>
-        </tr>
+      <table summary="aliases">
+
         <tr class="top-aligned-row context-row">
           <td class="context-item-name">quote</td>
           <td>-&gt;</td>
           <td class="context-item-value">escape</td>
         </tr>
+
         <tr class="top-aligned-row context-row">
           <td class="context-item-name">casefold</td>
           <td>-&gt;</td>
           <td class="context-item-value">casefold?</td>
         </tr>
-                        </table>
+
+        </table>
       </div>
     </div>
+
 
 
     <div id="attribute-list">
@@ -196,9 +182,12 @@ match the whole string:
 
       <div class="name-list">
         <table>
+
         <tr class="top-aligned-row context-row">
           <td class="context-item-name">casefold</td>
+
           <td class="context-item-value">&nbsp;[R]&nbsp;</td>
+
           <td class="context-item-desc">
 Boolean. Determines case sensitivity of the <a
 href="Wildcard.html">Wildcard</a>.
@@ -208,45 +197,180 @@ If this is true, the <a href="Wildcard.html">Wildcard</a> will ignore case.
 </p>
 </td>
         </tr>
+
         <tr class="top-aligned-row context-row">
           <td class="context-item-name">source</td>
+
           <td class="context-item-value">&nbsp;[R]&nbsp;</td>
+
           <td class="context-item-desc">
 The string from which the <a href="Wildcard.html">Wildcard</a> was
 constructed.
 
 </td>
         </tr>
+
         </table>
       </div>
     </div>
-      
 
 
     <!-- if method_list -->
+
     <div id="methods">
+
       <h3 class="section-bar">Public Class methods</h3>
+
+
+      <div id="method-M000008" class="method-detail">
+        <a name="M000008"></a>
+
+        <div class="method-heading">
+
+          <span class="method-name">[]</span><span class="method-args">(...)</span>
+
+        </div>
+
+        <div class="method-description">
+
+          <p>
+Alias for <a href="Wildcard.html#M000001">new</a>
+</p>
+
+        </div>
+      </div>
+
+
+      <div id="method-M000009" class="method-detail">
+        <a name="M000009"></a>
+
+        <div class="method-heading">
+
+          <span class="method-name">compile</span><span class="method-args">(...)</span>
+
+        </div>
+
+        <div class="method-description">
+
+          <p>
+Alias for <a href="Wildcard.html#M000001">new</a>
+</p>
+
+        </div>
+      </div>
+
+
+      <div id="method-M000007" class="method-detail">
+        <a name="M000007"></a>
+
+        <div class="method-heading">
+
+          <a href="#M000007" class="method-signature">
+
+          <span class="method-name">Wildcard.new(wildcard_string, casefold = false) &rarr; Wildcard<br />
+</span>
+
+          </a>
+
+        </div>
+
+        <div class="method-description">
+
+          <p>
+Creates a new <a href="Wildcard.html">Wildcard</a> from the given string.
+If casefold is true, the <a href="Wildcard.html">Wildcard</a> will ignore
+case.
+</p>
+<p>
+Raisess a SyntaxError if the given string could not be interpreted as a <a
+href="Wildcard.html">Wildcard</a>.
+</p>
+<p>
+Issues warnings to the console if the given <a
+href="Wildcard.html">Wildcard</a> was malformed.
+</p>
+
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000007-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000007-source">
+<pre>
+/*
+ * call-seq:
+ *   Wildcard.new(wildcard_string, casefold = false) -&gt; Wildcard
+ *
+ * Creates a new Wildcard from the given string.
+ * If casefold is true, the Wildcard will ignore case.
+ *
+ * Raisess a SyntaxError if the given string could not
+ * be interpreted as a Wildcard.
+ *
+ * Issues warnings to the console if the given Wildcard
+ * was malformed.
+ *
+ */
+VALUE class_method_new(argc, argv, klass)
+    int      argc;
+    VALUE *  argv;
+    VALUE    klass;
+{
+    VALUE         wildcard_string;
+    VALUE         casefold;
+    VALUE         new_object;
+    Wildcard *    new_wildcard;
+    const char *  wildcard_cstring;
+    long int      string_length;
+
+    // check arity and fill in defaults
+    rb_scan_args(argc, argv, &quot;11&quot;, &amp;wildcard_string, &amp;casefold);
+    if (NIL_P(casefold)) {
+        casefold = Qfalse;
+    }
+
+    // get C representation of stuff and create Wildcard
+    wildcard_cstring = rb_str2cstr(wildcard_string, &amp;string_length);
+    new_wildcard     = Wildcard_compile(wildcard_cstring, string_length);
+    // wrap wildcard
+    new_object       = Data_Wrap_Struct(klass, NULL, Wildcard_free, new_wildcard); 
+
+    // set instance variables
+    rb_iv_set(new_object, &quot;@casefold&quot;, casefold);
+    rb_iv_set(new_object, &quot;@source&quot;,   wildcard_string);
+
+    return new_object;
+}
+</pre>
+          </div>
+
+        </div>
+      </div>
+
 
       <div id="method-M000001" class="method-detail">
         <a name="M000001"></a>
 
         <div class="method-heading">
+
           <a href="#M000001" class="method-signature">
+
           <span class="method-name">new</span><span class="method-args">( wildcard_string, casefold = false )</span>
+
           </a>
+
         </div>
-      
+
         <div class="method-description">
+
           <p>
-Creates a <a href="Wildcard.html#M000001">new</a> <a
-href="Wildcard.html">Wildcard</a> from the given string. If casefold is
-true, the <a href="Wildcard.html">Wildcard</a> will ignore case.
+Creates a new <a href="Wildcard.html">Wildcard</a> from the given string.
+If casefold is true, the <a href="Wildcard.html">Wildcard</a> will ignore
+case. TODO
 </p>
+
           <p><a class="source-toggle" href="#"
             onclick="toggleCode('M000001-source');return false;">[Source]</a></p>
           <div class="method-source-code" id="M000001-source">
 <pre>
-<span class="ruby-comment cmt"># File lib/joker.rb, line 56</span>
+<span class="ruby-comment cmt"># File lib/joker.rb, line 61</span>
     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>( <span class="ruby-identifier">wildcard_string</span>, <span class="ruby-identifier">casefold</span> = <span class="ruby-keyword kw">false</span> )
         <span class="ruby-ivar">@source</span>   = <span class="ruby-identifier">wildcard_string</span>
         <span class="ruby-ivar">@casefold</span> = <span class="ruby-identifier">casefold</span>
@@ -257,95 +381,86 @@ true, the <a href="Wildcard.html">Wildcard</a> will ignore case.
     <span class="ruby-keyword kw">end</span>
 </pre>
           </div>
+
         </div>
       </div>
+
 
       <div id="method-M000002" class="method-detail">
         <a name="M000002"></a>
 
         <div class="method-heading">
+
           <a href="#M000002" class="method-signature">
+
           <span class="method-name">quote</span><span class="method-args">( string )</span>
+
           </a>
+
         </div>
-      
+
         <div class="method-description">
+
           <p>
-Returns a <a href="Wildcard.html#M000001">new</a> string with any
-characters escaped that would have special meaning in a <a
-href="Wildcard.html">Wildcard</a>.
+Returns a new string with any characters escaped that would have special
+meaning in a <a href="Wildcard.html">Wildcard</a>.
 </p>
+
           <p><a class="source-toggle" href="#"
             onclick="toggleCode('M000002-source');return false;">[Source]</a></p>
           <div class="method-source-code" id="M000002-source">
 <pre>
-<span class="ruby-comment cmt"># File lib/joker.rb, line 71</span>
+<span class="ruby-comment cmt"># File lib/joker.rb, line 76</span>
         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">quote</span>( <span class="ruby-identifier">string</span> )
-            <span class="ruby-identifier">string</span>.<span class="ruby-identifier">gsub</span>(<span class="ruby-regexp re">%r{[\\?*]}</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">char</span><span class="ruby-operator">|</span> <span class="ruby-node">&quot;\\#{char}&quot;</span> }
+            <span class="ruby-identifier">string</span>.<span class="ruby-identifier">gsub</span>(<span class="ruby-regexp re">%r{[\\?*\[\]]}</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">char</span><span class="ruby-operator">|</span> <span class="ruby-node">&quot;\\#{char}&quot;</span> }
         <span class="ruby-keyword kw">end</span>
 </pre>
           </div>
+
         </div>
       </div>
+
 
       <h3 class="section-bar">Public Instance methods</h3>
 
-      <div id="method-M000008" class="method-detail">
-        <a name="M000008"></a>
-
-        <div class="method-heading">
-          <span class="method-name">==</span><span class="method-args">( that )</span>
-        </div>
-      
-        <div class="method-description">
-          <p>
-Alias for eql?
-</p>
-        </div>
-      </div>
 
       <div id="method-M000006" class="method-detail">
         <a name="M000006"></a>
 
         <div class="method-heading">
-          <a href="#M000006" class="method-signature">
-          <span class="method-name">===</span><span class="method-args">( object )</span>
-          </a>
+
+          <span class="method-name">==</span><span class="method-args">( that )</span>
+
         </div>
-      
+
         <div class="method-description">
+
           <p>
-The case operator. Allows you to use Wildcards in case expressions:
+Alias for <a href="Wildcard.html#M000005">eql?</a>
 </p>
-<pre>
-  case 'I love fairycake'
-  when Wildcard['*fairy*'] then puts 'fairy!'
-  else puts 'no fairy...'
-  end
-</pre>
-          <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000006-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000006-source">
-<pre>
-<span class="ruby-comment cmt"># File lib/joker.rb, line 118</span>
-    <span class="ruby-keyword kw">def</span> <span class="ruby-operator">===</span>( <span class="ruby-identifier">object</span> )
-        <span class="ruby-operator">!</span><span class="ruby-operator">!</span>(<span class="ruby-ivar">@regexp</span> <span class="ruby-operator">=~</span> <span class="ruby-identifier">object</span>)
-    <span class="ruby-keyword kw">end</span>
-</pre>
-          </div>
+
         </div>
       </div>
 
-      <div id="method-M000005" class="method-detail">
-        <a name="M000005"></a>
+
+      <div id="method-M000011" class="method-detail">
+        <a name="M000011"></a>
 
         <div class="method-heading">
-          <a href="#M000005" class="method-signature">
-          <span class="method-name">=~</span><span class="method-args">( string )</span>
+
+          <a href="#M000011" class="method-signature">
+
+          <span class="method-name">wildcard =~  'string' &rarr; true or false<br />
+'string' =~  wildcard &rarr; true or false<br />
+wildcard === 'string' &rarr; true or false<br />
+</span>
+
           </a>
+
         </div>
-      
+
         <div class="method-description">
+
           <p>
 Matches the <a href="Wildcard.html">Wildcard</a> against the given string.
 </p>
@@ -354,32 +469,173 @@ NOTE: Since a wildcard has to match the whole string, this method only
 returns true or false, not the position of the match.
 </p>
 <pre>
-  Wildcard['*fairy*'] =~ 'I love fairycake'   #=&gt; true
-  'I love fairycake' =~ Wildcard['*dairy*']   #=&gt; false
+  Wildcard['*fairy*'] =~  'I love fairycake'    #=&gt; true
+  'I love fairycake'  =~  Wildcard['*dairy*']   #=&gt; false
+
+  case 'I love fairycake'
+  when Wildcard['*fairy*'] then puts 'fairy!'
+  else puts 'no fairy...'
+  end
 </pre>
+
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000005-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000005-source">
+            onclick="toggleCode('M000011-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000011-source">
 <pre>
-<span class="ruby-comment cmt"># File lib/joker.rb, line 105</span>
-    <span class="ruby-keyword kw">def</span> <span class="ruby-operator">=~</span>( <span class="ruby-identifier">string</span> )
-        <span class="ruby-operator">!</span><span class="ruby-operator">!</span>(<span class="ruby-ivar">@regexp</span> <span class="ruby-operator">=~</span> <span class="ruby-identifier">string</span>)
-    <span class="ruby-keyword kw">end</span>
+/*
+ * call-seq:
+ *   wildcard =~  'string' -&gt; true or false
+ *   'string' =~  wildcard -&gt; true or false
+ *   wildcard === 'string' -&gt; true or false
+ *
+ * Matches the Wildcard against the given string.
+ *
+ * NOTE: Since a wildcard has to match the whole string,
+ * this method only returns true or false, not the position
+ * of the match.
+ *
+ *   Wildcard['*fairy*'] =~  'I love fairycake'    #=&gt; true
+ *   'I love fairycake'  =~  Wildcard['*dairy*']   #=&gt; false
+ *
+ *   case 'I love fairycake'
+ *   when Wildcard['*fairy*'] then puts 'fairy!'
+ *   else puts 'no fairy...'
+ *   end
+ *
+ */
+VALUE instance_operator_match(self, object)
+    VALUE  self;
+    VALUE  object;
+{
+    Wildcard *    wildcard;
+    const char *  cstring;
+    long int      length;
+    int           casefold;
+
+    // check types and get the C representation of stuff
+    Check_Type(object, T_STRING);
+    Data_Get_Struct(self, Wildcard, wildcard);
+    cstring  = rb_str2cstr(object, &amp;length);
+    casefold  = RTEST(rb_iv_get(self, &quot;@casefold&quot;));
+
+    // match and return the result
+    if (Wildcard_match(wildcard, cstring, length, casefold)) {
+        return Qtrue;
+    } else {
+        return Qfalse;
+    }
+}
 </pre>
           </div>
+
         </div>
       </div>
 
-      <div id="method-M000007" class="method-detail">
-        <a name="M000007"></a>
+
+      <div id="method-M000010" class="method-detail">
+        <a name="M000010"></a>
 
         <div class="method-heading">
-          <a href="#M000007" class="method-signature">
-          <span class="method-name">eql?</span><span class="method-args">( that )</span>
+
+          <a href="#M000010" class="method-signature">
+
+          <span class="method-name">wildcard =~  'string' &rarr; true or false<br />
+'string' =~  wildcard &rarr; true or false<br />
+wildcard === 'string' &rarr; true or false<br />
+</span>
+
           </a>
+
         </div>
-      
+
         <div class="method-description">
+
+          <p>
+Matches the <a href="Wildcard.html">Wildcard</a> against the given string.
+</p>
+<p>
+NOTE: Since a wildcard has to match the whole string, this method only
+returns true or false, not the position of the match.
+</p>
+<pre>
+  Wildcard['*fairy*'] =~  'I love fairycake'    #=&gt; true
+  'I love fairycake'  =~  Wildcard['*dairy*']   #=&gt; false
+
+  case 'I love fairycake'
+  when Wildcard['*fairy*'] then puts 'fairy!'
+  else puts 'no fairy...'
+  end
+</pre>
+
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000010-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000010-source">
+<pre>
+/*
+ * call-seq:
+ *   wildcard =~  'string' -&gt; true or false
+ *   'string' =~  wildcard -&gt; true or false
+ *   wildcard === 'string' -&gt; true or false
+ *
+ * Matches the Wildcard against the given string.
+ *
+ * NOTE: Since a wildcard has to match the whole string,
+ * this method only returns true or false, not the position
+ * of the match.
+ *
+ *   Wildcard['*fairy*'] =~  'I love fairycake'    #=&gt; true
+ *   'I love fairycake'  =~  Wildcard['*dairy*']   #=&gt; false
+ *
+ *   case 'I love fairycake'
+ *   when Wildcard['*fairy*'] then puts 'fairy!'
+ *   else puts 'no fairy...'
+ *   end
+ *
+ */
+VALUE instance_operator_match(self, object)
+    VALUE  self;
+    VALUE  object;
+{
+    Wildcard *    wildcard;
+    const char *  cstring;
+    long int      length;
+    int           casefold;
+
+    // check types and get the C representation of stuff
+    Check_Type(object, T_STRING);
+    Data_Get_Struct(self, Wildcard, wildcard);
+    cstring  = rb_str2cstr(object, &amp;length);
+    casefold  = RTEST(rb_iv_get(self, &quot;@casefold&quot;));
+
+    // match and return the result
+    if (Wildcard_match(wildcard, cstring, length, casefold)) {
+        return Qtrue;
+    } else {
+        return Qfalse;
+    }
+}
+</pre>
+          </div>
+
+        </div>
+      </div>
+
+
+      <div id="method-M000005" class="method-detail">
+        <a name="M000005"></a>
+
+        <div class="method-heading">
+
+          <a href="#M000005" class="method-signature">
+
+          <span class="method-name">eql?</span><span class="method-args">( that )</span>
+
+          </a>
+
+        </div>
+
+        <div class="method-description">
+
           <p>
 Compares to Wildcards for equality.
 </p>
@@ -387,53 +643,68 @@ Compares to Wildcards for equality.
 Two wildcards are equal, if they were constructed from the same string and
 have the same casefold?().
 </p>
+
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000007-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000007-source">
+            onclick="toggleCode('M000005-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000005-source">
 <pre>
-<span class="ruby-comment cmt"># File lib/joker.rb, line 128</span>
+<span class="ruby-comment cmt"># File lib/joker.rb, line 106</span>
     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">eql?</span>( <span class="ruby-identifier">that</span> )
         <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">false</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">that</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Wildcard</span>)
-        <span class="ruby-ivar">@source</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">that</span>.<span class="ruby-identifier">source</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-ivar">@casefold</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">that</span>.<span class="ruby-identifier">casefold</span>
+        <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">source</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">that</span>.<span class="ruby-identifier">source</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">casefold</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">that</span>.<span class="ruby-identifier">casefold</span>
     <span class="ruby-keyword kw">end</span>
 </pre>
           </div>
+
         </div>
       </div>
+
 
       <div id="method-M000003" class="method-detail">
         <a name="M000003"></a>
 
         <div class="method-heading">
+
           <a href="#M000003" class="method-signature">
+
           <span class="method-name">inspect</span><span class="method-args">()</span>
+
           </a>
+
         </div>
-      
+
         <div class="method-description">
+
           <p><a class="source-toggle" href="#"
             onclick="toggleCode('M000003-source');return false;">[Source]</a></p>
           <div class="method-source-code" id="M000003-source">
 <pre>
-<span class="ruby-comment cmt"># File lib/joker.rb, line 81</span>
+<span class="ruby-comment cmt"># File lib/joker.rb, line 86</span>
     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">inspect</span>
-        <span class="ruby-node">%{Wildcard[#{@source.inspect}]#{@casefold ? 'i' : ''}}</span>
+        <span class="ruby-node">%{Wildcard[#{self.source.inspect}]#{self.casefold ? 'i' : ''}}</span>
     <span class="ruby-keyword kw">end</span>
 </pre>
           </div>
+
         </div>
       </div>
+
 
       <div id="method-M000004" class="method-detail">
         <a name="M000004"></a>
 
         <div class="method-heading">
+
           <a href="#M000004" class="method-signature">
+
           <span class="method-name">~</span><span class="method-args">()</span>
+
           </a>
+
         </div>
-      
+
         <div class="method-description">
+
           <p>
 Matches the wildcard against $_:
 </p>
@@ -441,25 +712,29 @@ Matches the wildcard against $_:
   $_ = 'I love fairycakes'
   ~Wildcard['*fairy*']        #=&gt; true
 </pre>
+
           <p><a class="source-toggle" href="#"
             onclick="toggleCode('M000004-source');return false;">[Source]</a></p>
           <div class="method-source-code" id="M000004-source">
 <pre>
-<span class="ruby-comment cmt"># File lib/joker.rb, line 91</span>
+<span class="ruby-comment cmt"># File lib/joker.rb, line 96</span>
     <span class="ruby-keyword kw">def</span> <span class="ruby-operator">~</span>
         <span class="ruby-keyword kw">self</span> <span class="ruby-operator">=~</span> <span class="ruby-identifier">$_</span>
     <span class="ruby-keyword kw">end</span>
 </pre>
           </div>
+
         </div>
       </div>
+
 
 
     </div>
 
 
-  </div>
 
+
+  </div>
 
 <div id="validator-badges">
   <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
