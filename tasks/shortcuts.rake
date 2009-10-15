@@ -1,8 +1,8 @@
 
 desc("Build linux and windows specific gems")
 task :gems do
-    sh "rake build:native"
-    sh "rake build:cross"
+    sh "rake clean build:native"
+    sh "rake clean build:cross"
 end
 
 task "build:native" => [:native, :build] do
