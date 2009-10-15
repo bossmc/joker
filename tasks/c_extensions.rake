@@ -6,9 +6,10 @@ Rake::ExtensionTask.new('joker_native', $gemspec) do |ext|
     ext.cross_compile   = true
     ext.cross_platform  = 'x86-mswin32'
     ext.test_files      = FileList['test/c/*']
+    ext.lib_dir         = 'lib/jeweler'
 end
 
-CLEAN.include 'lib/*.so'
+CLEAN.include 'lib/**/*.so'
 
 
 # workaround for rake-compiler which needs the gemspec to have a
@@ -18,16 +19,6 @@ Rake::Task.tasks.each do |task_name|
     case task_name.to_s
     when /^native/
         task_name.prerequisites.unshift("gemspec", "fix_rake_compiler_gemspec_dump")
-        task task_name => :fix_native_pkg_name do
-            $gemspec.platform = Gem::Platform::local
-        end
-        task :fix_native_pkg_name do
-            $gemspec.platform = Gem::Platform::local
-        end
-    when /^cross/
-        task task_name do
-            $gemspec.platform = extension_task.cross_platform
-        end
     end
 end
 

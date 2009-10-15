@@ -15,7 +15,7 @@ jeweler_tasks = Jeweler::Tasks.new do |gem|
     gem.authors             = ['Fabian Streitel']
     gem.rubyforge_project   = 'k-gems'
 
-    gem.files.include('lib/joker_native.*') # add native stuff
+    gem.files.include('lib/joker/joker_native.*') # add native stuff
 end
 
 $gemspec = jeweler_tasks.gemspec
