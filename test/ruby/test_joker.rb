@@ -9,18 +9,6 @@ describe 'A Wildcard' do
         @wildc ||= Wildcard['Fairy[cf]ake[!\\]]']
     end
 
-    it 'should be constructed correctly' do
-        @wild.casefold?.should.be.false
-        @wildi.casefold?.should.be.true
-        @wildc.casefold?.should.be.false
-        regexp  = @wild.instance_variable_get(:@regexp)
-        regexpi = @wildi.instance_variable_get(:@regexp)
-        regexpc = @wildc.instance_variable_get(:@regexp)
-        regexp.should.be  == /^Fairy.ake.*$/
-        regexpi.should.be == /^Fairy.ake.*\?$/i
-        regexpc.should.be == /^Fairy[cf]ake[!\]]$/
-    end
-
     it 'should match correct strings' do
         @wild.should =~ 'Fairycake'
         @wild.should =~ 'Fairyfakes'
@@ -37,12 +25,6 @@ describe 'A Wildcard' do
         @wildi.should =~ 'FairyCake?'
         @wildi.should =~ 'fairyfakes?'
         @wildi.should =~ 'FairyLake IS A COOL Place?'
-    end
-
-    it 'should handle escapes correctly' do
-        wild   = Wildcard['\\\\a\\?b\\*c\\d.][+']  # \\a\?b\*c\d.][+
-        regexp = wild.instance_variable_get(:@regexp)
-        regexp.should.be == /^\\a\?b\*c\\d\.\]\[\+$/
     end
 
     it 'should quote correctly' do
