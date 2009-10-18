@@ -9,15 +9,16 @@ title: Joker -- Wildcards (a.k.a. Glob Patterns) for Ruby
 
 ## Wildcards for Ruby ##
 
-    gem install karottenreibe-joker --source http://gems.github.com
     gem install joker
 
 {% highlight ruby %}
 {% include demo.rb %}
 {% endhighlight %}
 
-[rDoc] [rdoc]
+[rDoc][]
+[GitHub][]
 
-[joker]: /joker/joker.jpg         "Batman and the Joker"
-[rdoc]:  /joker/rdoc              "Joker's rdoc documentation"
+[joker]:    /joker/joker.jpg                            "Batman and the Joker"
+[rdoc]:     /joker/rdoc                                 "Joker's rdoc documentation"
+[github]:   http://www.github.com/karottenreibe/joker   "Joker on GitHub"
 
