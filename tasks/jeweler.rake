@@ -5,8 +5,6 @@ task :release do
     sh "git commit -a -m 'prerelease adjustments'; true"
 end
 
-task :build => :gemspec
-
 require 'jeweler'
 jeweler_tasks = Jeweler::Tasks.new do |gem|
     gem.name                = 'joker'
@@ -21,7 +19,8 @@ jeweler_tasks = Jeweler::Tasks.new do |gem|
     gem.files.include('lib/joker_native.*') # add native stuff
 end
 
-$gemspec = jeweler_tasks.gemspec
+$gemspec         = jeweler_tasks.gemspec
+$gemspec.version = jeweler_tasks.jeweler.version
 
 Jeweler::RubyforgeTasks.new
 Jeweler::GemcutterTasks.new
