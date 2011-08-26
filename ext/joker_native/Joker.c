@@ -47,7 +47,9 @@ VALUE instance_operator_match(self, object)
     // check types and get the C representation of stuff
     Check_Type(object, T_STRING);
     Data_Get_Struct(self, Wildcard, wildcard);
-    cstring  = rb_str2cstr(object, &length);
+    cstring  = StringValue(object);
+    length =  RSTRING_LEN(cstring);
+    cstring = RSTRING_PTR(cstring);
     casefold  = RTEST(rb_iv_get(self, "@casefold"));
 
     // match and return the result
@@ -92,7 +94,10 @@ VALUE class_method_new(argc, argv, klass)
     }
 
     // get C representation of stuff and create Wildcard
-    wildcard_cstring = rb_str2cstr(wildcard_string, &string_length);
+    wildcard_cstring = StringValue(wildcard_string);
+    string_length = RSTRING_LEN(wildcard_cstring);
+    wildcard_cstring = RSTRING_PTR(wildcard_string);
+
     new_wildcard     = Wildcard_compile(wildcard_cstring, string_length);
     // wrap wildcard
     new_object       = Data_Wrap_Struct(klass, NULL, Wildcard_free, new_wildcard); 
