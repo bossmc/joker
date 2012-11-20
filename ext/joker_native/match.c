@@ -1,4 +1,8 @@
+#if defined(__APPLE__)
+#include <stdlib.h>
+#else
 #include <malloc.h>
+#endif
 #include <stdio.h>
 #include <stddef.h>
 #include <string.h>
