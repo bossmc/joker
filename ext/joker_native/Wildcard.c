@@ -1,4 +1,8 @@
+#if defined(__APPLE__)
+#include <stdlib.h>
+#else
 #include <malloc.h>
+#endif
 #include <stddef.h>
 #include <Wildcard.h>
 
