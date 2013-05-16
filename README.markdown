@@ -1,3 +1,7 @@
+Joker is unmaintained. I haven't touched or used it in over 2 years.
+
+**Use at your own risk!**
+
 # Joker #
 
 <http://karottenreibe.github.com/joker>
