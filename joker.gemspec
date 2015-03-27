@@ -33,11 +33,6 @@ Gem::Specification.new do |s|
     "ext/joker_native/match.c",
     "ext/joker_native/match.h",
     "lib/joker.rb",
-    "tasks/c_extensions.rake",
-    "tasks/jeweler.rake",
-    "tasks/rdoc.rake",
-    "tasks/shortcuts.rake",
-    "tasks/test.rake",
     "test/c/test_compile.c",
     "test/c/test_match.c",
     "test/ruby/test_joker.rb"
@@ -48,22 +43,8 @@ Gem::Specification.new do |s|
   s.rubygems_version = %q{1.6.2}
   s.summary = %q{Joker is a simple wildcard implementation that works much like Regexps}
 
-  if s.respond_to? :specification_version then
-    s.specification_version = 3
-
-    if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
-      s.add_runtime_dependency(%q<jeweler>, [">= 0"])
-      s.add_runtime_dependency(%q<rake-compiler>, [">= 0"])
-      s.add_runtime_dependency(%q<rake-tester>, [">= 0"])
-    else
-      s.add_dependency(%q<jeweler>, [">= 0"])
-      s.add_dependency(%q<rake-compiler>, [">= 0"])
-      s.add_dependency(%q<rake-tester>, [">= 0"])
-    end
-  else
-    s.add_dependency(%q<jeweler>, [">= 0"])
-    s.add_dependency(%q<rake-compiler>, [">= 0"])
-    s.add_dependency(%q<rake-tester>, [">= 0"])
-  end
+  s.add_runtime_dependency(%q<rake-compiler>, [">= 0"])
+  s.add_runtime_dependency(%q<rake>, [">= 0"])
+  s.add_runtime_dependency(%q<bacon>, [">= 0"])
 end
 
