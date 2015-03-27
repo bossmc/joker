@@ -6,7 +6,12 @@ Gem::Specification.new do |s|
   s.authors = ["Fabian Streitel"]
   s.date = %q{2011-08-25}
   s.description = %q{Joker is a simple wildcard implementation that works much like Regexps}
+  s.summary = %q{Joker is a simple wildcard implementation}
   s.email = %q{karottenreibe@gmail.com}
+  s.license = %q{MIT}
+  s.homepage = %q{http://karottenreibe.github.com/joker}
+  s.require_paths = ["lib"]
+
   s.extensions = ["ext/joker_native/extconf.rb"]
   s.extra_rdoc_files = [
     "LICENSE.txt",
@@ -32,11 +37,6 @@ Gem::Specification.new do |s|
     "test/c/test_match.c",
     "test/ruby/test_joker.rb"
   ]
-  s.homepage = %q{http://karottenreibe.github.com/joker}
-  s.require_paths = ["lib"]
-  s.rubyforge_project = %q{k-gems}
-  s.rubygems_version = %q{1.6.2}
-  s.summary = %q{Joker is a simple wildcard implementation that works much like Regexps}
 
   s.add_runtime_dependency("rake-compiler", "~> 0")
   s.add_runtime_dependency("rake", "~> 10")
