@@ -1,4 +1,6 @@
 /tmp/
 /rdoc/
 /doc/
+
+/joker-*.gem
 /lib/joker_native.so
