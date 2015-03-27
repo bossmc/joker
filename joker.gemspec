@@ -38,8 +38,8 @@ Gem::Specification.new do |s|
   s.rubygems_version = %q{1.6.2}
   s.summary = %q{Joker is a simple wildcard implementation that works much like Regexps}
 
-  s.add_runtime_dependency("rake-compiler")
-  s.add_runtime_dependency("rake")
-  s.add_runtime_dependency("bacon")
+  s.add_runtime_dependency("rake-compiler", "~> 0")
+  s.add_runtime_dependency("rake", "~> 10")
+  s.add_runtime_dependency("bacon", "~> 1")
 end
 
