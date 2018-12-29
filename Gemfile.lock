@@ -4,14 +4,14 @@ PATH
     joker (1.1.0)
       bacon (~> 1)
       rake (~> 10)
-      rake-compiler (~> 0)
+      rake-compiler (< 2)
 
 GEM
   remote: http://rubygems.org/
   specs:
     bacon (1.2.0)
-    rake (10.4.2)
-    rake-compiler (0.9.5)
+    rake (10.5.0)
+    rake-compiler (1.0.6)
       rake
 
 PLATFORMS

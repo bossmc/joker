@@ -38,7 +38,7 @@ Gem::Specification.new do |s|
     "test/ruby/test_joker.rb"
   ]
 
-  s.add_runtime_dependency("rake-compiler", "~> 0")
+  s.add_runtime_dependency("rake-compiler", "< 2")
   s.add_runtime_dependency("rake", "~> 10")
   s.add_runtime_dependency("bacon", "~> 1")
 end
