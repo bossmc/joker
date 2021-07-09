@@ -39,7 +39,7 @@ Gem::Specification.new do |s|
   ]
 
   s.add_runtime_dependency("rake-compiler", "~> 0")
-  s.add_runtime_dependency("rake", "~> 10")
+  s.add_runtime_dependency("rake", ">= 10", "< 14")
   s.add_runtime_dependency("bacon", "~> 1")
 end
 
